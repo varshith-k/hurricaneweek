@@ -9,6 +9,8 @@ from app.schemas.decision import DecisionOutcome
 from app.schemas.event import EventChoice, EventResponse
 from app.schemas.report import FinalReport, FinancialSummary
 from app.schemas.simulation import PlayerProfile, ScoreState, SimulationState, StormState
+from app.core.config import get_settings
+from app.services.audio_service import AudioService, compose_narration_text
 from app.services.consequence_engine import apply_choice_effects, apply_delayed_consequences
 from app.services.event_engine import STAGES, advance_stage, find_event_for_stage, get_storm_for_stage
 from app.services.scoring_engine import build_strengths_and_gaps, compute_scores, map_outcome
@@ -63,9 +65,10 @@ class InMemorySimulationStore:
 
 
 class SimulationEngine:
-    def __init__(self, store: InMemorySimulationStore, tiger_service: TigerService) -> None:
+    def __init__(self, store: InMemorySimulationStore, tiger_service: TigerService, audio_service: AudioService) -> None:
         self.store = store
         self.tiger_service = tiger_service
+        self.audio_service = audio_service
 
     def create_simulation(self, player_profile: PlayerProfile) -> dict:
         return self.store.create(player_profile)
@@ -174,7 +177,7 @@ class SimulationEngine:
         self.store.get(simulation_id)
         return self.tiger_service.get_simulation_timeline(simulation_id)
 
-    def build_final_report(self, simulation_id: UUID) -> FinalReport:
+    def build_final_report(self, simulation_id: UUID, base_url: str | None = None) -> FinalReport:
         state = self.store.get(simulation_id)
         if state["status"] != "completed":
             raise HTTPException(status_code=409, detail="Simulation is not complete yet")
@@ -182,6 +185,20 @@ class SimulationEngine:
         scores = state.get("final_scores") or compute_scores(state)
         outcome = state.get("final_outcome") or map_outcome(scores)
         strengths, gaps, actions = build_strengths_and_gaps(state)
+
+        audio_url = None
+        if self.audio_service.enabled and base_url:
+            narration_text = compose_narration_text(
+                outcome=outcome,
+                overall_score=scores["overall"],
+                strengths=strengths,
+                decision_count=len(state["decision_history"]),
+                ending_cash=state["cash"],
+            )
+            audio_bytes = self.audio_service.synthesize_narration(simulation_id, narration_text)
+            if audio_bytes:
+                settings = get_settings()
+                audio_url = f"{base_url.rstrip('/')}{settings.api_prefix}/simulations/{simulation_id}/audio"
 
         return FinalReport(
             simulation_id=simulation_id,
@@ -196,6 +213,7 @@ class SimulationEngine:
             preparedness_gaps=gaps,
             action_identifiers=actions,
             decision_history=state["decision_history"],
+            audio_url=audio_url,
         )
 
     def _build_state_response(self, state: dict) -> SimulationState:

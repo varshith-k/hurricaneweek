@@ -20,4 +20,5 @@ class FinalReport(BaseModel):
     preparedness_gaps: list[str]
     action_identifiers: list[str]
     decision_history: list[dict[str, str]]
+    audio_url: str | None = None
 

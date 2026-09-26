@@ -1,8 +1,8 @@
 from uuid import UUID
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException, Request, Response
 
-from app.api.deps import get_simulation_engine
+from app.api.deps import audio_service, get_simulation_engine
 from app.schemas.decision import DecisionRequest, DecisionResponse
 from app.schemas.report import FinalReport
 from app.schemas.simulation import SimulationCreateRequest, SimulationCreateResponse, SimulationTelemetryRow
@@ -32,6 +32,7 @@ def get_current_event(
 def submit_decision(
     simulation_id: UUID,
     payload: DecisionRequest,
+    request: Request,
     engine: SimulationEngine = Depends(get_simulation_engine),
 ) -> DecisionResponse:
     outcome, state = engine.apply_decision(
@@ -47,7 +48,7 @@ def submit_decision(
             outcome=outcome,
             state=state,
             next_event=None,
-            final_report=engine.build_final_report(simulation_id),
+            final_report=engine.build_final_report(simulation_id, base_url=str(request.base_url)),
         )
 
     return DecisionResponse(
@@ -62,9 +63,18 @@ def submit_decision(
 @router.get("/{simulation_id}/report", response_model=FinalReport)
 def get_final_report(
     simulation_id: UUID,
+    request: Request,
     engine: SimulationEngine = Depends(get_simulation_engine),
 ) -> FinalReport:
-    return engine.build_final_report(simulation_id)
+    return engine.build_final_report(simulation_id, base_url=str(request.base_url))
+
+
+@router.get("/{simulation_id}/audio")
+def get_final_report_audio(simulation_id: UUID) -> Response:
+    audio_bytes = audio_service.get_cached_narration(simulation_id)
+    if audio_bytes is None:
+        raise HTTPException(status_code=404, detail="Narration audio not available for this simulation")
+    return Response(content=audio_bytes, media_type="audio/mpeg")
 
 
 @router.get("/{simulation_id}/timeline", response_model=list[SimulationTelemetryRow])

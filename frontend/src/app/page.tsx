@@ -324,6 +324,7 @@ export default function Home() {
 
             {report.plan_text ? <div className="mt-6 rounded-2xl border border-border bg-background p-4"><p className="text-xs uppercase tracking-[0.2em] text-muted">Plan</p><p className="mt-3 text-sm text-text">{report.plan_text}</p></div> : null}
             {report.community_stat ? <div className="mt-6 rounded-2xl border border-border bg-background p-4"><p className="text-xs uppercase tracking-[0.2em] text-muted">Community stat</p><p className="mt-3 text-sm text-text">{report.community_stat.text}</p></div> : null}
+            {report.audio_url ? <div className="mt-6 rounded-2xl border border-border bg-background p-4"><p className="text-xs uppercase tracking-[0.2em] text-muted">Spoken debrief</p><audio className="mt-3 w-full" controls src={report.audio_url}>Your browser does not support audio playback.</audio></div> : null}
 
             <div className="mt-6 rounded-2xl border border-border bg-background p-4">
               <p className="text-xs uppercase tracking-[0.2em] text-muted">Decision timeline</p>
