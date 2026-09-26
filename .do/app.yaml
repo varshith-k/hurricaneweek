@@ -21,10 +21,11 @@ services:
         value: "production"
       - key: APP_DEBUG
         value: "false"
-      # DATABASE_URL is set as a SECRET-type env var directly on the live
-      # app (via `doctl apps update`/dashboard) - not committed here.
-      # Re-add it as a SECRET env with the Tiger Data/Timescale URL if
-      # recreating this app from scratch.
+      # DATABASE_URL and ELEVENLABS_API_KEY are set as SECRET-type env vars
+      # directly on the live app (via `doctl apps update`/dashboard) - not
+      # committed here. DATABASE_URL points at the "hurricaneweek-db" DO
+      # Managed PostgreSQL cluster (nyc1, db-amd-1vcpu-1gb). Re-add both as
+      # SECRET envs if recreating this app from scratch.
     routes:
       - path: /api
         preserve_path_prefix: true
