@@ -21,8 +21,10 @@ services:
         value: "production"
       - key: APP_DEBUG
         value: "false"
-      # Add DATABASE_URL as a SECRET-type env var in the DO dashboard once
-      # the rotated Tiger Data / Timescale credential is available.
+      # DATABASE_URL is set as a SECRET-type env var directly on the live
+      # app (via `doctl apps update`/dashboard) - not committed here.
+      # Re-add it as a SECRET env with the Tiger Data/Timescale URL if
+      # recreating this app from scratch.
     routes:
       - path: /api
         preserve_path_prefix: true
