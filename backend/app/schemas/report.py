@@ -21,4 +21,5 @@ class FinalReport(BaseModel):
     action_identifiers: list[str]
     decision_history: list[dict[str, str]]
     audio_url: str | None = None
+    plan_text: str | None = None
 
