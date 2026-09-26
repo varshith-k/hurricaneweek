@@ -1,0 +1,53 @@
+name: hurricaneweek
+region: nyc
+services:
+  - name: backend
+    github:
+      repo: varshith-k/hurricaneweek
+      branch: main
+      deploy_on_push: true
+    source_dir: backend
+    build_command: pip install -r requirements.txt
+    run_command: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    http_port: 8080
+    instance_size_slug: basic-xxs
+    instance_count: 1
+    envs:
+      - key: ALLOWED_ORIGINS
+        value: "https://hurricaneweek.miami,https://www.hurricaneweek.miami"
+      - key: API_PREFIX
+        value: "/api"
+      - key: APP_ENV
+        value: "production"
+      - key: APP_DEBUG
+        value: "false"
+      # Add DATABASE_URL as a SECRET-type env var in the DO dashboard once
+      # the rotated Tiger Data / Timescale credential is available.
+    routes:
+      - path: /api
+        preserve_path_prefix: true
+
+  - name: frontend
+    github:
+      repo: varshith-k/hurricaneweek
+      branch: main
+      deploy_on_push: true
+    source_dir: frontend
+    build_command: npm install && npm run build
+    run_command: npm run start -- -p $PORT
+    http_port: 8080
+    instance_size_slug: basic-xxs
+    instance_count: 1
+    envs:
+      - key: NEXT_PUBLIC_API_BASE
+        value: "https://hurricaneweek.miami/api"
+      - key: NEXT_PUBLIC_USE_MOCK
+        value: "false"
+    routes:
+      - path: /
+
+domains:
+  - domain: hurricaneweek.miami
+    type: PRIMARY
+  - domain: www.hurricaneweek.miami
+    type: ALIAS
