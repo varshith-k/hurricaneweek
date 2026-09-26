@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import { disclaimer, generalCopy } from "@/content/copy";
 import { formatCurrency, formatSignedCurrency } from "@/lib/format";
 import type { FinalReport, ScoreState, SimulationState } from "@/lib/types";
+import { Vortex } from "@/components/Vortex";
 
 export function Disclaimer() {
   return (
@@ -35,11 +36,16 @@ export function ErrorBanner({ message, onRetry, onReset }: { message: string; on
 
 export function LoadingState({ message = "Preparing your next decision..." }: { message?: string }) {
   return (
-    <div className="space-y-4 rounded-2xl border border-border bg-surface p-4">
-      <div className="h-4 w-1/3 animate-pulse rounded bg-border" />
-      <div className="h-8 w-2/3 animate-pulse rounded bg-border" />
-      <div className="h-16 animate-pulse rounded bg-border" />
-      <p className="text-sm text-muted">{message}</p>
+    <div className="relative h-64 overflow-hidden rounded-2xl border border-border bg-surface">
+      <Vortex className="absolute inset-0 h-full w-full" />
+      <div className="relative flex h-full flex-col items-center justify-end gap-2 pb-6">
+        <div className="rounded-full border border-border bg-background/80 px-4 py-2 text-center backdrop-blur-sm">
+          <p className="font-mono text-xs uppercase tracking-[0.3em] text-accent animate-pulse">
+            Initializing storm telemetry
+          </p>
+          <p className="mt-1 text-sm text-muted">{message}</p>
+        </div>
+      </div>
     </div>
   );
 }
