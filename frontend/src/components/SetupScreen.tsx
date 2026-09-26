@@ -71,51 +71,59 @@ export function SetupScreen({
   };
 
   return (
-    <div className="mx-auto flex w-full max-w-6xl flex-col gap-6 py-8">
-      <div className="rounded-3xl border border-border bg-surface p-6 shadow-lg shadow-black/10 md:p-8">
-        <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
-          <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-muted">Storm readiness</p>
-            <h1 className="mt-3 text-4xl font-semibold tracking-tight text-text md:text-5xl">{stageIntroCopy.setupTitle}</h1>
-            <p className="mt-3 max-w-xl text-lg text-muted">{stageIntroCopy.setupTagline}</p>
-          </div>
-          <div className="rounded-2xl border border-border bg-background p-3 text-sm text-muted">
-            <div className="flex items-center gap-2">
-              <span className={`inline-block h-2.5 w-2.5 rounded-full ${backendOnline ? "bg-success" : "bg-border"}`} />
-              <span>{backendOnline ? "Engine online" : "Offline — demo mode available"}</span>
+    <div className="relative min-h-screen w-full overflow-hidden">
+      <div className="absolute inset-0">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/images/hurricane-hero.jpg" alt="" className="h-full w-full object-cover" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/50 via-background/75 to-background" />
+      </div>
+
+      <div className="relative mx-auto flex w-full max-w-6xl flex-col gap-6 px-4 py-8 md:py-16">
+        <div className="rounded-3xl border border-border bg-surface/70 p-6 shadow-lg shadow-black/30 backdrop-blur-md md:p-8">
+          <div className="flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
+            <div>
+              <p className="text-xs uppercase tracking-[0.3em] text-muted">Storm readiness</p>
+              <h1 className="mt-3 text-4xl font-semibold tracking-tight text-text md:text-5xl">{stageIntroCopy.setupTitle}</h1>
+              <p className="mt-3 max-w-xl text-lg text-muted">{stageIntroCopy.setupTagline}</p>
             </div>
-            <label className="mt-3 flex items-center gap-2">
-              <input
-                type="checkbox"
-                checked={mockEnabled}
-                onChange={(event) => {
-                  const enabled = event.target.checked;
-                  setMockEnabled(enabled);
-                  onToggleMock(enabled);
-                }}
-              />
-              <span>Use mock mode</span>
-            </label>
+            <div className="rounded-2xl border border-border bg-background/80 p-3 text-sm text-muted backdrop-blur-sm">
+              <div className="flex items-center gap-2">
+                <span className={`inline-block h-2.5 w-2.5 rounded-full ${backendOnline ? "bg-success" : "bg-border"}`} />
+                <span>{backendOnline ? "Engine online" : "Offline — demo mode available"}</span>
+              </div>
+              <label className="mt-3 flex items-center gap-2">
+                <input
+                  type="checkbox"
+                  checked={mockEnabled}
+                  onChange={(event) => {
+                    const enabled = event.target.checked;
+                    setMockEnabled(enabled);
+                    onToggleMock(enabled);
+                  }}
+                />
+                <span>Use mock mode</span>
+              </label>
+            </div>
           </div>
-        </div>
-        <p className="mt-6 max-w-3xl text-base text-muted">
-          Hurricane Week simulates the days before a storm so you can practice decisions with limited cash and a changing forecast. The choices here do not change the weather; they change how much risk you carry.
-        </p>
+          <p className="mt-6 max-w-3xl text-base text-muted">
+            Hurricane Week simulates the days before a storm so you can practice decisions with limited cash and a changing forecast. The choices here do not change the weather; they change how much risk you carry.
+          </p>
 
-        <div className="mt-8 flex flex-wrap items-center gap-3">
-          <button type="button" onClick={() => onStart(profile)} className="rounded-full bg-accent px-5 py-3 font-medium text-background transition hover:opacity-90">
-            Start the $400 Challenge
-          </button>
-          <button type="button" onClick={() => setCustomizeOpen((value) => !value)} className="rounded-full border border-border bg-background px-5 py-3 font-medium text-text transition hover:border-accent">
-            Customize
-          </button>
-        </div>
+          <div className="mt-8 flex flex-wrap items-center gap-3">
+            <button type="button" onClick={() => onStart(profile)} className="inline-flex items-center gap-2 rounded-full bg-accent px-5 py-3 font-medium text-background transition hover:opacity-90">
+              Start the $400 Challenge
+              <span aria-hidden="true">→</span>
+            </button>
+            <button type="button" onClick={() => setCustomizeOpen((value) => !value)} className="rounded-full border border-border bg-background/80 px-5 py-3 font-medium text-text backdrop-blur-sm transition hover:border-accent">
+              Customize
+            </button>
+          </div>
 
-        {errorMessage ? (
-          <div className="mt-5 rounded-2xl border border-danger/30 bg-danger/10 p-3 text-sm text-danger">{errorMessage}</div>
-        ) : null}
+          {errorMessage ? (
+            <div className="mt-5 rounded-2xl border border-danger/30 bg-danger/10 p-3 text-sm text-danger">{errorMessage}</div>
+          ) : null}
 
-        {customizeOpen ? (
+          {customizeOpen ? (
           <div className="mt-8 grid gap-4 rounded-2xl border border-border bg-background p-4 md:grid-cols-2">
             <label className="flex flex-col gap-1 text-sm text-muted">
               Cash on hand
@@ -150,9 +158,10 @@ export function SetupScreen({
               Needs refrigerated medication
             </label>
           </div>
-        ) : null}
+          ) : null}
+        </div>
+        <Disclaimer />
       </div>
-      <Disclaimer />
     </div>
   );
 }
