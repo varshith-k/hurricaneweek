@@ -14,6 +14,16 @@ import { initialState, simReducer } from "@/state/simReducer";
 
 const stageOrder = ["T_MINUS_120", "T_MINUS_96", "T_MINUS_72", "T_MINUS_48", "T_MINUS_24", "LANDFALL", "RECOVERY"] as const;
 
+// Keeps the loading screen (and its storm vortex animation) visible for at
+// least this long, even if the API responds faster - otherwise fast
+// same-datacenter round-trips make it flash by unnoticed.
+const MIN_LOADING_MS = 700;
+
+async function withMinDelay<T>(promise: Promise<T>): Promise<T> {
+  const [result] = await Promise.all([promise, new Promise((resolve) => setTimeout(resolve, MIN_LOADING_MS))]);
+  return result;
+}
+
 const saveSimulationId = (id: string | null) => {
   if (typeof window === "undefined") return;
   if (id) {
@@ -36,8 +46,13 @@ export default function Home() {
     async (profile: PlayerProfile) => {
       dispatch({ type: "START_LOAD", profile, useMock: useMockSession });
       try {
-        const created = await createSimulation(profile);
-        const event = await getCurrentEvent(created.simulation_id);
+        const { created, event } = await withMinDelay(
+          (async () => {
+            const created = await createSimulation(profile);
+            const event = await getCurrentEvent(created.simulation_id);
+            return { created, event };
+          })(),
+        );
         saveSimulationId(created.simulation_id);
         dispatch({ type: "LOAD_EVENT", simulationId: created.simulation_id, event, state: created.state, useMock: useMockSession });
       } catch (error) {
@@ -109,7 +124,7 @@ export default function Home() {
     if (!state.currentEvent || !state.simulationId || !state.selectedChoiceId) return;
     dispatch({ type: "START_LOAD", profile: state.profile ?? { cash_on_hand: 400, has_insurance: false, housing_type: "apartment", transport_type: "scooter", household_size: 1, needs_refrigerated_medication: false }, useMock: useMockSession });
     try {
-      const response = await submitDecision(state.simulationId, state.currentEvent.event_id, state.selectedChoiceId);
+      const response = await withMinDelay(submitDecision(state.simulationId, state.currentEvent.event_id, state.selectedChoiceId));
       if (response.status === "completed") {
         const finalReport = response.final_report ?? (await getFinalReport(state.simulationId));
         dispatch({ type: "SET_CONSEQUENCE", outcome: response.outcome, state: response.state, nextEvent: null, finalReport });
