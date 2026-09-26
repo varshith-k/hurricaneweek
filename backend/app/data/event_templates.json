@@ -1,0 +1,94 @@
+﻿[
+  {
+    "event_id": "supply_run",
+    "stage": "T_MINUS_120",
+    "title": "Early Supply Run",
+    "description": "You can still shop before shortages begin.",
+    "eligibility": [],
+    "choices": [
+      {"choice_id": "buy_early_supplies", "label": "Buy 5 days of supplies now", "cash_delta": -120, "food_days_delta": 3, "water_days_delta": 3, "preparedness_delta": 18, "timing_delta": 16, "consequence": "You secure food and water before shelves thin out."},
+      {"choice_id": "buy_partial_supplies", "label": "Buy only basic supplies", "cash_delta": -65, "food_days_delta": 2, "water_days_delta": 1, "preparedness_delta": 8, "timing_delta": 8, "consequence": "You reduce some risk but remain understocked."},
+      {"choice_id": "delay_shopping", "label": "Delay shopping", "cash_delta": 0, "food_days_delta": 0, "water_days_delta": 0, "preparedness_delta": -6, "timing_delta": -8, "consequence": "You risk shortages and panic buying later."}
+    ]
+  },
+  {
+    "event_id": "scooter_protection",
+    "stage": "T_MINUS_96",
+    "title": "Scooter and Property Protection",
+    "description": "Flooding could damage uncovered transport and valuables.",
+    "eligibility": ["is_scooter_user", "scooter_unprotected"],
+    "choices": [
+      {"choice_id": "protect_scooter_and_docs", "label": "Move scooter to safe storage and secure documents", "cash_delta": -45, "preparedness_delta": 14, "timing_delta": 12, "set_flags": {"scooter_protected": true, "documents_secured": true}, "consequence": "You reduce flood damage and secure critical paperwork."},
+      {"choice_id": "secure_documents_only", "label": "Secure documents only", "cash_delta": -15, "preparedness_delta": 6, "timing_delta": 5, "set_flags": {"documents_secured": true}, "consequence": "Documents are safer, but scooter remains exposed."},
+      {"choice_id": "do_nothing", "label": "Do nothing", "cash_delta": 0, "preparedness_delta": -4, "timing_delta": -6, "consequence": "Exposure remains high as flood risk increases."}
+    ]
+  },
+  {
+    "event_id": "home_protection",
+    "stage": "T_MINUS_96",
+    "title": "Home Protection",
+    "description": "You can reinforce entry points and secure important documents.",
+    "eligibility": ["not_scooter_user"],
+    "choices": [
+      {"choice_id": "reinforce_home", "label": "Reinforce home and secure documents", "cash_delta": -55, "preparedness_delta": 13, "timing_delta": 11, "set_flags": {"documents_secured": true}, "consequence": "You reduce household exposure and improve readiness."},
+      {"choice_id": "basic_reinforcement", "label": "Do basic reinforcement", "cash_delta": -25, "preparedness_delta": 6, "timing_delta": 4, "consequence": "You reduce some risk but leave weak points."},
+      {"choice_id": "skip_reinforcement", "label": "Skip protection", "cash_delta": 0, "preparedness_delta": -4, "timing_delta": -5, "consequence": "No additional mitigation is in place."}
+    ]
+  },
+  {
+    "event_id": "work_vs_prepare",
+    "stage": "T_MINUS_72",
+    "title": "Work Shift vs Preparation",
+    "description": "You can work extra hours or spend the time preparing.",
+    "eligibility": [],
+    "choices": [
+      {"choice_id": "skip_shift_prepare", "label": "Skip shift and prepare", "cash_delta": -30, "preparedness_delta": 12, "timing_delta": 10, "consequence": "You sacrifice income for better readiness."},
+      {"choice_id": "work_shift", "label": "Work the shift", "cash_delta": 60, "preparedness_delta": -4, "timing_delta": -6, "consequence": "You gain cash but lose preparation time."}
+    ]
+  },
+  {
+    "event_id": "insurance_verification",
+    "stage": "T_MINUS_48",
+    "title": "Insurance Verification",
+    "description": "Verify your policy and gather claim-ready documentation.",
+    "eligibility": ["insurance_not_verified"],
+    "choices": [
+      {"choice_id": "verify_insurance", "label": "Verify policy and take inventory photos", "cash_delta": 0, "preparedness_delta": 10, "timing_delta": 8, "set_flags": {"insurance_verified": true, "documents_secured": true}, "consequence": "You improve claim readiness and reduce uncertainty."},
+      {"choice_id": "skip_verification", "label": "Skip verification", "cash_delta": 0, "preparedness_delta": -5, "timing_delta": -5, "consequence": "Coverage details remain unclear."}
+    ]
+  },
+  {
+    "event_id": "evacuation_choice",
+    "stage": "T_MINUS_24",
+    "title": "Evacuation Decision",
+    "description": "Road conditions are worsening. Decide your response.",
+    "eligibility": ["not_evacuated"],
+    "choices": [
+      {"choice_id": "evacuate_early", "label": "Evacuate before roads congest", "cash_delta": -90, "preparedness_delta": 8, "timing_delta": 15, "set_flags": {"evacuated": true}, "consequence": "You move to safer ground before peak risk."},
+      {"choice_id": "shelter_locally", "label": "Move to nearby shelter", "cash_delta": -40, "preparedness_delta": 4, "timing_delta": 8, "set_flags": {"evacuated": true}, "consequence": "You reduce risk but remain near storm impacts."},
+      {"choice_id": "stay_put", "label": "Stay in place", "cash_delta": 0, "preparedness_delta": -8, "timing_delta": -12, "consequence": "You remain in the highest-risk zone."}
+    ]
+  },
+  {
+    "event_id": "landfall_response",
+    "stage": "LANDFALL",
+    "title": "Landfall Response",
+    "description": "Peak storm arrives. Your immediate behavior matters.",
+    "eligibility": [],
+    "choices": [
+      {"choice_id": "strict_protocol", "label": "Follow strict emergency protocol", "cash_delta": -10, "preparedness_delta": 5, "timing_delta": 4, "consequence": "You minimize avoidable risk during peak impact."},
+      {"choice_id": "panic_actions", "label": "Take unplanned reactive actions", "cash_delta": -5, "preparedness_delta": -7, "timing_delta": -8, "consequence": "Reactive choices increase exposure and losses."}
+    ]
+  },
+  {
+    "event_id": "recovery_decision",
+    "stage": "RECOVERY",
+    "title": "Recovery Decision",
+    "description": "Choose immediate post-storm actions.",
+    "eligibility": [],
+    "choices": [
+      {"choice_id": "document_damage_and_plan", "label": "Document damage and start recovery plan", "cash_delta": -20, "preparedness_delta": 6, "timing_delta": 6, "consequence": "Structured recovery reduces long-term disruption."},
+      {"choice_id": "delay_recovery_actions", "label": "Delay recovery actions", "cash_delta": 0, "preparedness_delta": -4, "timing_delta": -5, "consequence": "Delays increase preventable setbacks."}
+    ]
+  }
+]

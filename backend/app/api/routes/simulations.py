@@ -1,9 +1,10 @@
-from uuid import UUID
+﻿from uuid import UUID
 
 from fastapi import APIRouter, Depends
 
 from app.api.deps import get_simulation_engine
 from app.schemas.decision import DecisionRequest, DecisionResponse
+from app.schemas.report import FinalReport
 from app.schemas.simulation import SimulationCreateRequest, SimulationCreateResponse
 from app.services.simulation_engine import SimulationEngine
 
@@ -15,8 +16,8 @@ def create_simulation(
     payload: SimulationCreateRequest,
     engine: SimulationEngine = Depends(get_simulation_engine),
 ) -> SimulationCreateResponse:
-    record = engine.create_simulation(payload.player_profile)
-    return SimulationCreateResponse(simulation_id=record.simulation_id, state=engine.get_state(record.simulation_id))
+    state = engine.create_simulation(payload.player_profile)
+    return SimulationCreateResponse(simulation_id=state["simulation_id"], state=engine.get_state(state["simulation_id"]))
 
 
 @router.get("/{simulation_id}/event")
@@ -46,6 +47,7 @@ def submit_decision(
             outcome=outcome,
             state=state,
             next_event=None,
+            final_report=engine.build_final_report(simulation_id),
         )
 
     return DecisionResponse(
@@ -56,3 +58,10 @@ def submit_decision(
         next_event=engine.get_current_event(simulation_id),
     )
 
+
+@router.get("/{simulation_id}/report", response_model=FinalReport)
+def get_final_report(
+    simulation_id: UUID,
+    engine: SimulationEngine = Depends(get_simulation_engine),
+) -> FinalReport:
+    return engine.build_final_report(simulation_id)
