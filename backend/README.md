@@ -33,4 +33,8 @@ pytest -q
 - `POST /api/simulations`
 - `GET /api/simulations/{simulation_id}/event`
 - `POST /api/simulations/{simulation_id}/decisions`
+- `GET /api/simulations/{simulation_id}/timeline`
 
+## Tiger Data telemetry
+
+Set `DATABASE_URL` in `.env` to your Tiger Cloud/Timescale Postgres connection string. Every valid decision writes one telemetry row to `simulation_telemetry`, and `GET /api/simulations/{simulation_id}/timeline` reads those persisted rows back in timestamp order.

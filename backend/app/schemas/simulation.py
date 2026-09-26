@@ -2,6 +2,7 @@ from typing import Literal
 from uuid import UUID
 
 from pydantic import BaseModel, Field
+from datetime import datetime
 
 
 HousingType = Literal["apartment", "house", "mobile_home"]
@@ -58,3 +59,20 @@ class SimulationState(BaseModel):
 class SimulationCreateResponse(BaseModel):
     simulation_id: UUID
     state: SimulationState
+
+
+class SimulationTelemetryRow(BaseModel):
+    simulation_id: UUID
+    ts: datetime
+    stage: str
+    event_id: str
+    choice_id: str
+    cash: int
+    preparedness_points: int
+    timing_points: int
+    safety_score: int
+    financial_score: int
+    preparedness_score: int
+    timing_score: int
+    overall_score: int
+    payload: dict

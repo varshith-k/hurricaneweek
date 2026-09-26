@@ -1,11 +1,11 @@
-﻿from uuid import UUID
+from uuid import UUID
 
 from fastapi import APIRouter, Depends
 
 from app.api.deps import get_simulation_engine
 from app.schemas.decision import DecisionRequest, DecisionResponse
 from app.schemas.report import FinalReport
-from app.schemas.simulation import SimulationCreateRequest, SimulationCreateResponse
+from app.schemas.simulation import SimulationCreateRequest, SimulationCreateResponse, SimulationTelemetryRow
 from app.services.simulation_engine import SimulationEngine
 
 router = APIRouter(prefix="/simulations", tags=["simulations"])
@@ -65,3 +65,12 @@ def get_final_report(
     engine: SimulationEngine = Depends(get_simulation_engine),
 ) -> FinalReport:
     return engine.build_final_report(simulation_id)
+
+
+@router.get("/{simulation_id}/timeline", response_model=list[SimulationTelemetryRow])
+def get_simulation_timeline(
+    simulation_id: UUID,
+    engine: SimulationEngine = Depends(get_simulation_engine),
+):
+    return engine.get_timeline(simulation_id)
+

@@ -12,6 +12,7 @@ from app.schemas.simulation import PlayerProfile, ScoreState, SimulationState, S
 from app.services.consequence_engine import apply_choice_effects, apply_delayed_consequences
 from app.services.event_engine import STAGES, advance_stage, find_event_for_stage, get_storm_for_stage
 from app.services.scoring_engine import build_strengths_and_gaps, compute_scores, map_outcome
+from app.services.tiger_service import TigerService
 
 
 class InMemorySimulationStore:
@@ -62,8 +63,9 @@ class InMemorySimulationStore:
 
 
 class SimulationEngine:
-    def __init__(self, store: InMemorySimulationStore) -> None:
+    def __init__(self, store: InMemorySimulationStore, tiger_service: TigerService) -> None:
         self.store = store
+        self.tiger_service = tiger_service
 
     def create_simulation(self, player_profile: PlayerProfile) -> dict:
         return self.store.create(player_profile)
@@ -128,6 +130,28 @@ class SimulationEngine:
         if state["stage"] == "LANDFALL":
             apply_delayed_consequences(state)
 
+        scores_before_advance = compute_scores(state)
+        self.tiger_service.log_simulation_state(
+            simulation_id=simulation_id,
+            stage=state["stage"],
+            event_id=event_id,
+            choice_id=choice_id,
+            state=state,
+            scores=scores_before_advance,
+            payload={
+                "status": state["status"],
+                "storm": state["storm"],
+                "decision": {
+                    "event_id": event_id,
+                    "choice_id": choice_id,
+                    "consequence": choice["consequence"],
+                },
+                "transport_available": state["transport_available"],
+                "evacuated": state["evacuated"],
+                "financial_loss": state["financial_loss"],
+            },
+        )
+
         advance_stage(state)
         state["storm"] = get_storm_for_stage(state["stage"])
 
@@ -145,6 +169,10 @@ class SimulationEngine:
             cash_delta=choice.get("cash_delta", 0),
         )
         return outcome, self._build_state_response(state)
+
+    def get_timeline(self, simulation_id: UUID) -> list[dict]:
+        self.store.get(simulation_id)
+        return self.tiger_service.get_simulation_timeline(simulation_id)
 
     def build_final_report(self, simulation_id: UUID) -> FinalReport:
         state = self.store.get(simulation_id)

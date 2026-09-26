@@ -1,5 +1,6 @@
-﻿from fastapi.testclient import TestClient
+from fastapi.testclient import TestClient
 
+from app.api.deps import tiger_service
 from app.main import app
 
 
@@ -202,3 +203,35 @@ def test_deterministic_run_same_inputs_same_outputs() -> None:
     assert first["outcome"] == second["outcome"]
     assert first["scores"] == second["scores"]
     assert first["financial_summary"] == second["financial_summary"]
+
+def test_timeline_persists_rows_for_each_valid_decision() -> None:
+    if not tiger_service.enabled:
+        return
+
+    simulation_id = _create_simulation()
+    for choice in [
+        "buy_early_supplies",
+        "protect_scooter_and_docs",
+        "skip_shift_prepare",
+        "verify_insurance",
+        "evacuate_early",
+        "strict_protocol",
+        "document_damage_and_plan",
+    ]:
+        event = client.get(f"/api/simulations/{simulation_id}/event").json()
+        response = client.post(
+            f"/api/simulations/{simulation_id}/decisions",
+            json={"event_id": event["event_id"], "choice_id": choice},
+        )
+        assert response.status_code == 200
+
+    timeline = client.get(f"/api/simulations/{simulation_id}/timeline")
+    assert timeline.status_code == 200
+
+    rows = timeline.json()
+    assert len(rows) == 7
+    assert rows[0]["event_id"] == "supply_run"
+    assert rows[-1]["event_id"] == "recovery_decision"
+    assert all(row["simulation_id"] == simulation_id for row in rows)
+
+
