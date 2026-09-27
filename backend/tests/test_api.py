@@ -274,3 +274,12 @@ def test_running_out_of_cash_surfaces_as_a_report_gap_not_an_error() -> None:
     report = client.get(f"/api/simulations/{simulation_id}/report").json()
     assert "Ran out of cash before finishing preparations" in report["preparedness_gaps"]
     assert "build_a_cash_buffer_before_storm_season" in report["action_identifiers"]
+
+
+def test_evacuation_route_endpoint_returns_valid_shape() -> None:
+    simulation_id = _create_simulation(transport_type="scooter")
+    response = client.get(f"/api/simulations/{simulation_id}/evacuation-route")
+    assert response.status_code == 200
+    payload = response.json()
+    assert "available" in payload
+    assert "note" in payload

@@ -244,3 +244,16 @@ export interface QuizResponse {
   disclaimer: string;
   questions: QuizQuestion[];
 }
+
+export interface EvacuationRoute {
+  available: boolean;
+  origin_label: string | null;
+  shelter_name: string | null;
+  shelter_area: string | null;
+  transport_mode: string | null;
+  distance_km: number | null;
+  duration_min: number | null;
+  feasibility: "clear" | "compromised" | null;
+  warning: string | null;
+  note: string;
+}

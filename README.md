@@ -10,6 +10,7 @@ An interactive hurricane-preparedness simulator. You play a Miami-Dade resident 
 - Every final report includes a personalized action plan, a spoken debrief, and a Solana-verifiable completion record — see [Sponsor integrations](#sponsor-integrations) below.
 - A **Readiness Assistant** chatbot answers real hurricane-prep questions (insurance, supplies, evacuation timing) using verified FEMA/NOAA facts, not generic LLM guesses.
 - An **Auto Insurance Readiness Quiz** (a second tab inside the Readiness Assistant) — 8 scored, scenario-based questions on what comprehensive vs. liability coverage actually pays for in a storm, total-loss valuation, rental reimbursement, and claim documentation, each with a sourced explanation.
+- An **evacuation mobility check** on the T-24 evacuation decision — real distance and travel time (via OpenRouteService) from a fixed starting point to the nearest Miami-Dade shelter, with a feasibility flag if rising flood risk threatens a scooter/transit evacuation before landfall.
 - Simulation state persists across backend restarts and redeploys — nobody loses progress mid-storm.
 
 ## Design rationale

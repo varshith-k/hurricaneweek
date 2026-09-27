@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useReducer } from "react";
 
+import { EvacuationRouteCheck } from "@/components/EvacuationRouteCheck";
 import { SetupScreen } from "@/components/SetupScreen";
 import { Disclaimer, ErrorBanner, LandfallReveal, LoadingState, OutcomeBadge, PlacePanel, SafetyGateNotice, ScoreBars } from "@/components/common";
 import { getActionText } from "@/content/actions";
@@ -220,6 +221,11 @@ export default function Home() {
                   );
                 })}
               </div>
+
+              {state.currentEvent.event_id === "evacuation_choice" && state.simulationId ? (
+                <EvacuationRouteCheck simulationId={state.simulationId} />
+              ) : null}
+
               <div className="mt-5 flex items-center gap-3">
                 <button type="button" onClick={submitChoice} disabled={!state.selectedChoiceId} className="rounded-full bg-accent px-4 py-2.5 font-medium text-background disabled:cursor-not-allowed disabled:opacity-60">Lock in decision</button>
                 <span className="text-sm text-muted">{state.selectedChoiceId ? "Choice selected" : "Select a choice"}</span>

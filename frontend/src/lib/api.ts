@@ -1,4 +1,4 @@
-import type { ApiError, AskResponse, AssistantIntro, ChatTurn, DecisionResponse, EventResponse, FinalReport, PlayerProfile, QuizResponse, SimulationCreateResponse } from "@/lib/types";
+import type { ApiError, AskResponse, AssistantIntro, ChatTurn, DecisionResponse, EvacuationRoute, EventResponse, FinalReport, PlayerProfile, QuizResponse, SimulationCreateResponse } from "@/lib/types";
 
 const DEFAULT_BASE = "http://localhost:8000/api";
 
@@ -91,4 +91,8 @@ export async function askAssistant(
 
 export async function getAutoInsuranceQuiz(): Promise<QuizResponse> {
   return request<QuizResponse>("/quiz/auto-insurance", "GET");
+}
+
+export async function getEvacuationRoute(simulationId: string): Promise<EvacuationRoute> {
+  return request<EvacuationRoute>(`/simulations/${simulationId}/evacuation-route`, "GET");
 }

@@ -1,0 +1,30 @@
+[
+  {
+    "id": "coral_park",
+    "name": "Miami Coral Park Senior High School",
+    "area": "Westchester",
+    "lon": -80.3216,
+    "lat": 25.7527
+  },
+  {
+    "id": "northwestern",
+    "name": "Miami Northwestern Senior High School",
+    "area": "Liberty City",
+    "lon": -80.2119,
+    "lat": 25.8321
+  },
+  {
+    "id": "south_dade",
+    "name": "South Dade Senior High School",
+    "area": "Homestead",
+    "lon": -80.4384,
+    "lat": 25.5386
+  },
+  {
+    "id": "hialeah",
+    "name": "Hialeah Senior High School",
+    "area": "Hialeah",
+    "lon": -80.2789,
+    "lat": 25.8532
+  }
+]

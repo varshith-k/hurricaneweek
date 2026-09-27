@@ -6,6 +6,7 @@ from app.services.assistant_service import AssistantService
 from app.services.audio_service import AudioService
 from app.services.mongo_store import MongoSimulationStore
 from app.services.plan_service import PlanService
+from app.services.route_service import RouteService
 from app.services.scoring_engine import build_strengths_and_gaps, compute_scores
 from app.services.simulation_engine import InMemorySimulationStore, SimulationEngine
 from app.services.snowflake_service import FactsRepository
@@ -30,6 +31,7 @@ tiger_service = TigerService()
 audio_service = AudioService()
 plan_service = PlanService()
 solana_service = SolanaService()
+route_service = RouteService()
 simulation_engine = SimulationEngine(
     store=simulation_store,
     tiger_service=tiger_service,

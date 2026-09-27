@@ -5,6 +5,7 @@ from app.api.routes.assistant import router as assistant_router
 from app.api.routes.health import router as health_router
 from app.api.routes.media import router as media_router
 from app.api.routes.quiz import router as quiz_router
+from app.api.routes.route import router as route_router
 from app.api.routes.simulations import router as simulations_router
 from app.core.config import get_settings
 
@@ -24,5 +25,6 @@ app.include_router(assistant_router, prefix=settings.api_prefix)
 app.include_router(health_router, prefix=settings.api_prefix)
 app.include_router(media_router, prefix=settings.api_prefix)
 app.include_router(quiz_router, prefix=settings.api_prefix)
+app.include_router(route_router, prefix=settings.api_prefix)
 app.include_router(simulations_router, prefix=settings.api_prefix)
 
