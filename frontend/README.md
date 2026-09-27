@@ -34,4 +34,4 @@ Next.js 16 (App Router), React 19, Tailwind CSS, TypeScript.
 
 ## Deployment
 
-Deployed on DigitalOcean App Platform alongside the backend — see [`.do/app.yaml`](../.do/app.yaml) at the repo root. Not deployed on Vercel.
+Deployed on DigitalOcean App Platform alongside the backend; see [`.do/app.yaml`](../.do/app.yaml) at the repo root. Not deployed on Vercel.
