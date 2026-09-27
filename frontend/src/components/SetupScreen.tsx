@@ -31,21 +31,16 @@ const defaultProfile: PlayerProfile = {
 
 export function SetupScreen({
   onStart,
-  onToggleMock,
-  defaultMock,
   errorMessage,
   onClearError,
 }: {
   onStart: (profile: PlayerProfile) => void;
-  onToggleMock: (enabled: boolean) => void;
-  defaultMock: boolean;
   errorMessage?: string | null;
   onClearError?: () => void;
 }) {
   const [customizeOpen, setCustomizeOpen] = useState(false);
   const [profile, setProfile] = useState<PlayerProfile>(defaultProfile);
   const [backendOnline, setBackendOnline] = useState(true);
-  const [mockEnabled, setMockEnabled] = useState(defaultMock);
 
   useEffect(() => {
     let cancelled = false;
@@ -132,20 +127,8 @@ export function SetupScreen({
             <div className="rounded-2xl border border-border bg-background/80 p-3 text-sm text-muted backdrop-blur-sm">
               <div className="flex items-center gap-2">
                 <span className={`inline-block h-2.5 w-2.5 rounded-full ${backendOnline ? "bg-success" : "bg-border"}`} />
-                <span>{backendOnline ? "Engine online" : "Offline — demo mode available"}</span>
+                <span>{backendOnline ? "Engine online" : "Offline"}</span>
               </div>
-              <label className="mt-3 flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  checked={mockEnabled}
-                  onChange={(event) => {
-                    const enabled = event.target.checked;
-                    setMockEnabled(enabled);
-                    onToggleMock(enabled);
-                  }}
-                />
-                <span>Use mock mode</span>
-              </label>
             </div>
           </div>
           <p className="mt-6 max-w-3xl text-base text-muted">

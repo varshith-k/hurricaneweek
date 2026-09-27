@@ -36,32 +36,23 @@ const saveSimulationId = (id: string | null) => {
 export default function Home() {
   const [state, dispatch] = useReducer(simReducer, initialState);
 
-  const useMockSession = state.useMock || process.env.NEXT_PUBLIC_USE_MOCK === "true";
-
-  const handleToggleMock = useCallback((value: boolean) => {
-    dispatch({ type: "SET_MOCK", value });
+  const startNewGame = useCallback(async (profile: PlayerProfile) => {
+    dispatch({ type: "START_LOAD", profile });
+    try {
+      const { created, event } = await withMinDelay(
+        (async () => {
+          const created = await createSimulation(profile);
+          const event = await getCurrentEvent(created.simulation_id);
+          return { created, event };
+        })(),
+      );
+      saveSimulationId(created.simulation_id);
+      dispatch({ type: "LOAD_EVENT", simulationId: created.simulation_id, event, state: created.state });
+    } catch (error) {
+      const apiError = error as ApiError;
+      dispatch({ type: "SET_ERROR", message: apiError.message || "Could not start the simulation." });
+    }
   }, []);
-
-  const startNewGame = useCallback(
-    async (profile: PlayerProfile) => {
-      dispatch({ type: "START_LOAD", profile, useMock: useMockSession });
-      try {
-        const { created, event } = await withMinDelay(
-          (async () => {
-            const created = await createSimulation(profile);
-            const event = await getCurrentEvent(created.simulation_id);
-            return { created, event };
-          })(),
-        );
-        saveSimulationId(created.simulation_id);
-        dispatch({ type: "LOAD_EVENT", simulationId: created.simulation_id, event, state: created.state, useMock: useMockSession });
-      } catch (error) {
-        const apiError = error as ApiError;
-        dispatch({ type: "SET_ERROR", message: apiError.message || "Could not start the simulation." });
-      }
-    },
-    [useMockSession],
-  );
 
   const retryCurrentGame = useCallback(async () => {
     if (!state.profile) return;
@@ -97,7 +88,6 @@ export default function Home() {
           storm: { stage: event.stage, wind_mph: 0, flood_risk: 0 },
           scores: { safety: 0, financial: 0, preparedness: 0, timing: 0, overall: 0 },
         },
-        useMock: useMockSession,
       });
     } catch (error) {
       const apiError = error as ApiError;
@@ -107,7 +97,7 @@ export default function Home() {
         dispatch({ type: "SET_ERROR", message: apiError.message || "The session could not be restored." });
       }
     }
-  }, [useMockSession]);
+  }, []);
 
   useEffect(() => {
     void restoreSession();
@@ -122,7 +112,7 @@ export default function Home() {
 
   const submitChoice = useCallback(async () => {
     if (!state.currentEvent || !state.simulationId || !state.selectedChoiceId) return;
-    dispatch({ type: "START_LOAD", profile: state.profile ?? { cash_on_hand: 400, has_insurance: false, housing_type: "apartment", transport_type: "scooter", household_size: 1, needs_refrigerated_medication: false }, useMock: useMockSession });
+    dispatch({ type: "START_LOAD", profile: state.profile ?? { cash_on_hand: 400, has_insurance: false, housing_type: "apartment", transport_type: "scooter", household_size: 1, needs_refrigerated_medication: false } });
     try {
       const response = await withMinDelay(submitDecision(state.simulationId, state.currentEvent.event_id, state.selectedChoiceId));
       if (response.status === "completed") {
@@ -141,12 +131,12 @@ export default function Home() {
       const apiError = error as ApiError;
       dispatch({ type: "SET_ERROR", message: apiError.message || "The decision could not be submitted." });
     }
-  }, [state.currentEvent, state.profile, state.selectedChoiceId, state.simulationId, useMockSession]);
+  }, [state.currentEvent, state.profile, state.selectedChoiceId, state.simulationId]);
 
   if (state.phase === "setup") {
     return (
       <main className="min-h-screen bg-background text-text">
-        <SetupScreen onStart={startNewGame} onToggleMock={handleToggleMock} defaultMock={useMockSession} errorMessage={state.errorMessage} onClearError={() => dispatch({ type: "RESET" })} />
+        <SetupScreen onStart={startNewGame} errorMessage={state.errorMessage} onClearError={() => dispatch({ type: "RESET" })} />
       </main>
     );
   }

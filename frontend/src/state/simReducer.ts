@@ -12,7 +12,6 @@ export interface SimReducerState {
   finalReport: FinalReport | null;
   errorMessage: string | null;
   selectedChoiceId: string | null;
-  useMock: boolean;
 }
 
 export const initialState: SimReducerState = {
@@ -25,13 +24,11 @@ export const initialState: SimReducerState = {
   finalReport: null,
   errorMessage: null,
   selectedChoiceId: null,
-  useMock: process.env.NEXT_PUBLIC_USE_MOCK === "true",
 };
 
 export type SimAction =
-  | { type: "START_LOAD"; profile: PlayerProfile; useMock: boolean }
-  | { type: "SET_MOCK"; value: boolean }
-  | { type: "LOAD_EVENT"; simulationId: string; event: EventResponse; state: SimulationState; useMock: boolean }
+  | { type: "START_LOAD"; profile: PlayerProfile }
+  | { type: "LOAD_EVENT"; simulationId: string; event: EventResponse; state: SimulationState }
   | { type: "SET_ERROR"; message: string }
   | { type: "SET_CONSEQUENCE"; outcome: DecisionOutcome; state: SimulationState; nextEvent: EventResponse | null; finalReport: FinalReport | null }
   | { type: "CONTINUE_TO_NEXT" }
@@ -42,15 +39,12 @@ export type SimAction =
 
 export function simReducer(state: SimReducerState, action: SimAction): SimReducerState {
   switch (action.type) {
-    case "SET_MOCK":
-      return state.useMock === action.value ? state : { ...state, useMock: action.value };
     case "START_LOAD":
       return {
         ...state,
         phase: "loading",
         profile: action.profile,
         errorMessage: null,
-        useMock: action.useMock,
       };
     case "LOAD_EVENT":
       return {
@@ -63,7 +57,6 @@ export function simReducer(state: SimReducerState, action: SimAction): SimReduce
         finalReport: null,
         selectedChoiceId: null,
         errorMessage: null,
-        useMock: action.useMock,
       };
     case "SET_ERROR":
       return {
@@ -97,7 +90,7 @@ export function simReducer(state: SimReducerState, action: SimAction): SimReduce
         outcome: null,
       };
     case "RESET":
-      return { ...initialState, useMock: state.useMock };
+      return { ...initialState };
     case "SESSION_RESTORE_FAILED":
       return {
         ...state,
