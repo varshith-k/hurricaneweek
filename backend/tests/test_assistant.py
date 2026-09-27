@@ -111,7 +111,10 @@ def test_non_emergency_questions(text) -> None:
     assert not is_emergency(text)
 
 
-@pytest.mark.parametrize("text", ["hi", "Hello!", "hey", "thanks", "ok", "good morning"])
+@pytest.mark.parametrize(
+    "text",
+    ["hi", "Hello!", "hey", "thanks", "ok", "good morning", "hiii", "heyyy", "helloooo", "okkk", "coool"],
+)
 def test_greeting_detection(text) -> None:
     assert is_greeting(text)
 

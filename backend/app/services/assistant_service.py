@@ -82,7 +82,8 @@ MAX_HISTORY_TURNS = 4
 ALWAYS_ALLOWED_NUMBERS = {"911"}
 _NUMBER = re.compile(r"(?<![\w.])\$?\d[\d,]*(?:\.\d+)?%?")
 _GREETING = re.compile(
-    r"^\s*(hi|hello|hey|yo|howdy|good\s?(morning|afternoon|evening)|thanks|thank you|ok|okay|cool)\s*[!.?]*\s*$",
+    r"^\s*(h+i+|h+e+y+|h+e+l+l+o+|y+o+|howdy|good\s?(morning|afternoon|evening)|"
+    r"thanks|thank you|o+k+(?:a+y+)?|c+o+o+l+)\s*[!.?]*\s*$",
     re.IGNORECASE,
 )
 GREETING_ANSWER = (
