@@ -15,6 +15,7 @@ from app.services.consequence_engine import apply_choice_effects, apply_delayed_
 from app.services.event_engine import STAGES, advance_stage, find_event_for_stage, get_storm_for_stage
 from app.services.plan_service import PlanService
 from app.services.scoring_engine import build_strengths_and_gaps, compute_scores, map_outcome
+from app.services.solana_service import SolanaService
 from app.services.tiger_service import TigerService
 
 
@@ -72,11 +73,13 @@ class SimulationEngine:
         tiger_service: TigerService,
         audio_service: AudioService,
         plan_service: PlanService,
+        solana_service: SolanaService,
     ) -> None:
         self.store = store
         self.tiger_service = tiger_service
         self.audio_service = audio_service
         self.plan_service = plan_service
+        self.solana_service = solana_service
 
     def create_simulation(self, player_profile: PlayerProfile) -> dict:
         return self.store.create(player_profile)
@@ -215,6 +218,12 @@ class SimulationEngine:
                 settings = get_settings()
                 audio_url = f"{base_url.rstrip('/')}{settings.api_prefix}/simulations/{simulation_id}/audio"
 
+        solana_tx_url = self.solana_service.record_completion(
+            simulation_id=simulation_id,
+            outcome=outcome,
+            overall_score=scores["overall"],
+        )
+
         return FinalReport(
             simulation_id=simulation_id,
             outcome=outcome,
@@ -230,6 +239,7 @@ class SimulationEngine:
             decision_history=state["decision_history"],
             audio_url=audio_url,
             plan_text=plan_text,
+            solana_tx_url=solana_tx_url,
         )
 
     def _build_state_response(self, state: dict) -> SimulationState:

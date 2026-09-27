@@ -140,6 +140,7 @@ export interface FinalReport {
   community_stat?: CommunityStat;
   audio_url?: string;
   rent?: RentSummary;
+  solana_tx_url?: string;
 }
 
 export interface ApiError extends Error {
