@@ -229,3 +229,18 @@ export interface AskResponse {
   note: string | null;
   ai_meta: AiMeta | null;
 }
+
+export interface QuizQuestion {
+  id: string;
+  question: string;
+  options: string[];
+  correct_index: number;
+  explanation: string;
+  source: string;
+}
+
+export interface QuizResponse {
+  title: string;
+  disclaimer: string;
+  questions: QuizQuestion[];
+}

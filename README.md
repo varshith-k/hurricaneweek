@@ -9,6 +9,7 @@ An interactive hurricane-preparedness simulator. You play a Miami-Dade resident 
 - A branching decision engine walks the player through storm stages (`T-120h` → landfall → recovery), tracking cash, supplies, insurance, and evacuation state.
 - Every final report includes a personalized action plan, a spoken debrief, and a Solana-verifiable completion record — see [Sponsor integrations](#sponsor-integrations) below.
 - A **Readiness Assistant** chatbot answers real hurricane-prep questions (insurance, supplies, evacuation timing) using verified FEMA/NOAA facts, not generic LLM guesses.
+- An **Auto Insurance Readiness Quiz** (a second tab inside the Readiness Assistant) — 8 scored, scenario-based questions on what comprehensive vs. liability coverage actually pays for in a storm, total-loss valuation, rental reimbursement, and claim documentation, each with a sourced explanation.
 - Simulation state persists across backend restarts and redeploys — nobody loses progress mid-storm.
 
 ## Design rationale

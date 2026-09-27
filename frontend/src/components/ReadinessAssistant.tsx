@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
+import { AutoInsuranceQuiz } from "@/components/AutoInsuranceQuiz";
 import { askAssistant, getAssistantIntro } from "@/lib/api";
 import type { AskResponse, AssistantIntro, ChatTurn } from "@/lib/types";
 
@@ -30,6 +31,7 @@ function CheckIcon() {
 
 export function ReadinessAssistant() {
   const [open, setOpen] = useState(false);
+  const [tab, setTab] = useState<"chat" | "quiz">("chat");
   const [intro, setIntro] = useState<AssistantIntro | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
@@ -94,6 +96,27 @@ export function ReadinessAssistant() {
             </button>
           </div>
 
+          <div className="flex border-b border-border text-xs">
+            <button
+              type="button"
+              onClick={() => setTab("chat")}
+              className={`flex-1 px-3 py-2 uppercase tracking-[0.15em] transition ${tab === "chat" ? "border-b-2 border-accent text-text" : "text-muted hover:text-text"}`}
+            >
+              Chat
+            </button>
+            <button
+              type="button"
+              onClick={() => setTab("quiz")}
+              className={`flex-1 px-3 py-2 uppercase tracking-[0.15em] transition ${tab === "quiz" ? "border-b-2 border-accent text-text" : "text-muted hover:text-text"}`}
+            >
+              Auto Insurance Quiz
+            </button>
+          </div>
+
+          {tab === "quiz" ? (
+            <AutoInsuranceQuiz />
+          ) : (
+            <>
           <div ref={scrollRef} className="flex-1 space-y-3 overflow-y-auto p-4">
             {intro ? (
               <div className="rounded-2xl border border-border bg-background p-3 text-xs text-muted">
@@ -164,6 +187,8 @@ export function ReadinessAssistant() {
               Ask
             </button>
           </form>
+            </>
+          )}
         </div>
       ) : null}
     </>

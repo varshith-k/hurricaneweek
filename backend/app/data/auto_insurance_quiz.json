@@ -1,0 +1,106 @@
+[
+  {
+    "id": "comprehensive_covers_storm",
+    "question": "Which part of an auto policy typically pays for flood, storm surge, or wind damage to your OWN car?",
+    "options": [
+      "Liability coverage",
+      "Collision coverage",
+      "Comprehensive coverage",
+      "It's never covered"
+    ],
+    "correct_index": 2,
+    "explanation": "Comprehensive coverage (sometimes called \"other than collision\") pays for damage from floods, storm surge, falling trees, and hail. Liability only covers damage you cause to others, and collision covers crashes with objects or vehicles - neither covers flood damage to your own car.",
+    "source": "Insurance Information Institute (iii.org)"
+  },
+  {
+    "id": "liability_only_gap",
+    "question": "You carry only the state-minimum liability auto insurance. Is hurricane damage to your own car covered?",
+    "options": [
+      "Yes, always",
+      "No - liability-only never pays to repair your own vehicle",
+      "Only for storms with an official name",
+      "Only if you file within 24 hours"
+    ],
+    "correct_index": 1,
+    "explanation": "Liability insurance pays for injuries or damage you cause to OTHER people or property - it never pays to repair your own car, no matter the cause. Storm damage to your own vehicle needs comprehensive coverage added to the policy.",
+    "source": "Insurance Information Institute (iii.org)"
+  },
+  {
+    "id": "moving_car_before_storm",
+    "question": "Does moving your car to higher ground before a storm put your insurance claim at risk?",
+    "options": [
+      "Yes, it can void your policy",
+      "No - reasonable steps to protect your property don't hurt your claim",
+      "Only if you don't get insurer approval first",
+      "Only matters for leased cars"
+    ],
+    "correct_index": 1,
+    "explanation": "Taking reasonable steps to protect your property from foreseeable damage is expected, not penalized. Photograph your car's condition and location beforehand so you have evidence if you do need to file a claim.",
+    "source": "Insurance Information Institute (iii.org)"
+  },
+  {
+    "id": "total_loss_payout",
+    "question": "Your car is declared a total loss after flood damage. What does a standard comprehensive claim typically pay?",
+    "options": [
+      "What you originally paid for the car",
+      "The actual cash value (ACV) right before the damage, minus your deductible",
+      "A flat $500",
+      "Nothing until you buy a replacement car"
+    ],
+    "correct_index": 1,
+    "explanation": "Comprehensive total-loss claims are usually paid at the vehicle's actual cash value - its depreciated market value right before the damage - minus your deductible, not the original purchase price.",
+    "source": "Insurance Information Institute (iii.org)"
+  },
+  {
+    "id": "document_before_claim",
+    "question": "What's the most useful thing to do before filing an auto claim for storm damage?",
+    "options": [
+      "Wait 30 days for the car to fully dry out",
+      "Take timestamped photos/video of the damage before moving or repairing anything",
+      "Repair the car yourself first, then file",
+      "Nothing - insurers can assess damage remotely without evidence"
+    ],
+    "correct_index": 1,
+    "explanation": "Photos and video taken before repairs or cleanup are the strongest evidence for a claim. Keep receipts for any temporary repairs (like a tarp or boarding a window) too.",
+    "source": "Insurance Information Institute (iii.org); FEMA"
+  },
+  {
+    "id": "rental_reimbursement",
+    "question": "If your car needs repairs after storm damage, does a standard auto policy include a rental car?",
+    "options": [
+      "Yes, automatically, on every policy",
+      "Only if you added rental reimbursement coverage separately",
+      "Only for a total loss",
+      "Never, under any circumstance"
+    ],
+    "correct_index": 1,
+    "explanation": "Rental car reimbursement is usually a separate, optional add-on - not something every driver has by default. Check your policy's declarations page before you need it, not after.",
+    "source": "Insurance Information Institute (iii.org)"
+  },
+  {
+    "id": "keep_info_accessible",
+    "question": "You evacuate and leave your car behind. What should you do with your insurance info?",
+    "options": [
+      "Nothing, it's not needed until you're home",
+      "Keep your policy number and insurer's claims phone number accessible - phone, cloud, or your go-bag",
+      "Only a paper copy at home counts",
+      "Insurers already have everything they need automatically"
+    ],
+    "correct_index": 1,
+    "explanation": "Having your policy number and claims phone number on hand - not just at home - means you can start a claim right away even if you're displaced or home documents are damaged.",
+    "source": "Ready.gov"
+  },
+  {
+    "id": "no_24_hour_rule",
+    "question": "True or false: you must file an auto insurance claim within 24 hours of the storm or you lose coverage.",
+    "options": [
+      "True",
+      "False - most insurers just require \"prompt\" notice, but filing sooner helps your claim",
+      "True, but only in coastal states",
+      "True, but only for leased vehicles"
+    ],
+    "correct_index": 1,
+    "explanation": "There's no universal 24-hour deadline. Most policies require notifying your insurer \"promptly\" or \"within a reasonable time,\" which is usually interpreted generously after a declared disaster - but filing sooner means faster payout and fresher evidence. Check your own policy's exact wording.",
+    "source": "Insurance Information Institute (iii.org)"
+  }
+]
