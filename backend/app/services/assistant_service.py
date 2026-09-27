@@ -306,7 +306,10 @@ class AssistantService:
             fallback["ai_meta"] = meta
             return fallback
         sources = list(dict.fromkeys(chunk["source"] for chunk in chunks))
-        return {"kind": "ai", "answer": answer, "question_id": None, "sources": sources, "note": None, "ai_meta": meta}
+        note = None
+        if meta["provider"] == "gemini" and not chunks:
+            note = "General answer, not from the FEMA/NOAA source set."
+        return {"kind": "ai", "answer": answer, "question_id": None, "sources": sources, "note": note, "ai_meta": meta}
 
     def ask(
         self,

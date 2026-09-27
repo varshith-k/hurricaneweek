@@ -161,6 +161,9 @@ export function ReadinessAssistant() {
                   {message.meta?.sources.length ? (
                     <p className="mt-1 text-[11px] text-muted">Source: {message.meta.sources.join(", ")}</p>
                   ) : null}
+                  {message.meta?.note ? (
+                    <p className="mt-1 text-[11px] italic text-warning">{message.meta.note}</p>
+                  ) : null}
                 </div>
               </div>
             ))}

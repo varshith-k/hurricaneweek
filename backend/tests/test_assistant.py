@@ -348,3 +348,29 @@ def test_intro_includes_last_run(offline_assistant, monkeypatch) -> None:
     assert intro["last_run"]["preparedness_gaps"]
     report = client.get(f"/api/simulations/{simulation_id}/report").json()
     assert report["real_world_context"] == [fact]
+
+
+def test_ungrounded_gemini_answer_is_labeled(tmp_path, monkeypatch) -> None:
+    monkeypatch.setenv("GEMINI_API_KEY", "fake-key-for-test")
+    service, _ = make_service(tmp_path, fake=FakeClient(fail=True))
+    monkeypatch.setattr(service, "_gemini", lambda prompt: ("A general answer with no specific numbers.", "gemini-test-model"))
+
+    result = service.ask(question="qwerty zxcvb")
+
+    assert result["kind"] == "ai"
+    assert result["ai_meta"]["provider"] == "gemini"
+    assert result["ai_meta"]["retrieved"] == []
+    assert result["note"] == "General answer, not from the FEMA/NOAA source set."
+
+
+def test_grounded_gemini_answer_has_no_ungrounded_note(tmp_path, monkeypatch) -> None:
+    monkeypatch.setenv("GEMINI_API_KEY", "fake-key-for-test")
+    service, _ = make_service(tmp_path, fake=FakeClient(fail=True))
+    monkeypatch.setattr(service, "_gemini", lambda prompt: ("Usually not covered without a separate policy.", "gemini-test-model"))
+
+    result = service.ask(question="Does renters insurance cover flooding?")
+
+    assert result["kind"] == "ai"
+    assert result["ai_meta"]["provider"] == "gemini"
+    assert result["ai_meta"]["retrieved"] != []
+    assert result["note"] is None
