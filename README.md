@@ -17,8 +17,9 @@ Each of these is a real, working call to the sponsor's API — not a bolted-on d
 
 | Sponsor | What it does | Where |
 |---|---|---|
-| **DigitalOcean** | Hosts the full stack — FastAPI backend + Next.js frontend on App Platform, with a Managed PostgreSQL database, auto-deploying on every push to `main` | [`.do/app.yaml`](.do/app.yaml) |
+| **DigitalOcean** | Hosts the full stack — FastAPI backend + Next.js frontend on App Platform, auto-deploying on every push to `main` | [`.do/app.yaml`](.do/app.yaml) |
 | **MongoDB Atlas** | Persists active simulation state (previously an in-memory dict that lost all progress on every redeploy) | [`backend/app/services/mongo_store.py`](backend/app/services/mongo_store.py) |
+| **Tiger Data** | Every decision writes a row to a TimescaleDB hypertable (`simulation_telemetry`), backing the per-run timeline endpoint. A continuous aggregate (`simulation_telemetry_hourly`) pre-computes per-stage decision counts and average scores for real-time rollups, and a compression policy keeps older chunks compact | [`backend/app/services/tiger_service.py`](backend/app/services/tiger_service.py) |
 | **Snowflake** | Stores real FEMA/NOAA hurricane-prep facts; Cortex AI (RAG + `AI_COMPLETE`) powers the Readiness Assistant's grounded answers, with a Gemini fallback when Cortex is unavailable | [`backend/app/services/snowflake_service.py`](backend/app/services/snowflake_service.py) |
 | **Google Gemini** | Generates the personalized "what you did well / what to improve" plan text on the final report, and backs the Readiness Assistant when Snowflake Cortex can't answer | [`backend/app/services/plan_service.py`](backend/app/services/plan_service.py), [`backend/app/services/assistant_service.py`](backend/app/services/assistant_service.py) |
 | **ElevenLabs** | Narrates the final report as spoken audio, and generates the ambient storm sound effect that plays during the simulation | [`backend/app/services/audio_service.py`](backend/app/services/audio_service.py) |
@@ -28,7 +29,7 @@ Each of these is a real, working call to the sponsor's API — not a bolted-on d
 
 - **Backend:** FastAPI, Pydantic, pytest — [backend/README.md](backend/README.md)
 - **Frontend:** Next.js 16 (App Router), React 19, Tailwind CSS, TypeScript — [frontend/README.md](frontend/README.md)
-- **Data:** DigitalOcean Managed PostgreSQL, MongoDB Atlas, Snowflake
+- **Data:** Tiger Data (Timescale), MongoDB Atlas, Snowflake
 - **Deployment:** DigitalOcean App Platform ([`.do/app.yaml`](.do/app.yaml)), auto-deploys on push to `main`, custom domain via Porkbun DNS
 
 ## API

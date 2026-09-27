@@ -43,9 +43,9 @@ pytest -q
 
 Full request/response shapes: [API.md](API.md).
 
-## Postgres telemetry
+## Tiger Data telemetry
 
-Set `DATABASE_URL` in `.env` to any Postgres connection string (DigitalOcean Managed Postgres in production). Every valid decision writes one telemetry row to `simulation_telemetry`, and `GET /api/simulations/{simulation_id}/timeline` reads those persisted rows back in timestamp order. Optional locally — the app degrades gracefully if unset.
+Set `DATABASE_URL` in `.env` to a Postgres connection string (a [Tiger Cloud](https://www.tigerdata.com/) instance in production). Every valid decision writes one telemetry row to `simulation_telemetry`, a TimescaleDB hypertable. `GET /api/simulations/{simulation_id}/timeline` reads those rows back in timestamp order; a continuous aggregate (`simulation_telemetry_hourly`) pre-computes per-stage decision counts and average scores. Works against any Postgres, but the hypertable/continuous-aggregate/compression setup is skipped gracefully on non-Timescale databases. Optional locally — the app degrades gracefully if unset.
 
 ## Optional integrations
 
