@@ -1,11 +1,11 @@
-# Hurricane Week Backend (Sprint 1 + Sprint 2)
+# Hurricane Week Backend
 
 ## Local setup
 
 ```bash
 cd backend
 python -m venv .venv
-source .venv/Scripts/activate
+source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
@@ -34,7 +34,19 @@ pytest -q
 - `GET /api/simulations/{simulation_id}/event`
 - `POST /api/simulations/{simulation_id}/decisions`
 - `GET /api/simulations/{simulation_id}/timeline`
+- `GET /api/simulations/{simulation_id}/report`
+- `GET /api/simulations/{simulation_id}/audio`
+- `GET /api/ambient-sound`
+- `GET /api/assistant/intro`
+- `POST /api/assistant/ask`
+- `POST /api/context/refresh`
 
-## Tiger Data telemetry
+Full request/response shapes: [API.md](API.md).
 
-Set `DATABASE_URL` in `.env` to your Tiger Cloud/Timescale Postgres connection string. Every valid decision writes one telemetry row to `simulation_telemetry`, and `GET /api/simulations/{simulation_id}/timeline` reads those persisted rows back in timestamp order.
+## Postgres telemetry
+
+Set `DATABASE_URL` in `.env` to any Postgres connection string (DigitalOcean Managed Postgres in production). Every valid decision writes one telemetry row to `simulation_telemetry`, and `GET /api/simulations/{simulation_id}/timeline` reads those persisted rows back in timestamp order. Optional locally — the app degrades gracefully if unset.
+
+## Optional integrations
+
+MongoDB, Snowflake, Gemini, ElevenLabs, and Solana are all optional locally and degrade gracefully if their env vars are unset. See [.env.example](../.env.example) for every variable, and the top-level [README](../README.md#sponsor-integrations) for what each one does.
