@@ -7,7 +7,7 @@ from fastapi.testclient import TestClient
 
 from app.api import deps
 from app.main import app
-from app.services.assistant_service import KNOWLEDGE_PATH, AssistantService, is_emergency, number_check
+from app.services.assistant_service import KNOWLEDGE_PATH, AssistantService, is_emergency, is_greeting, number_check
 from app.services.snowflake_service import (
     FactsRepository,
     SnowflakeClient,
@@ -109,6 +109,24 @@ def test_emergency_detection(text) -> None:
 )
 def test_non_emergency_questions(text) -> None:
     assert not is_emergency(text)
+
+
+@pytest.mark.parametrize("text", ["hi", "Hello!", "hey", "thanks", "ok", "good morning"])
+def test_greeting_detection(text) -> None:
+    assert is_greeting(text)
+
+
+@pytest.mark.parametrize("text", ["hi, does renters insurance cover flooding?", "How much water should I store?"])
+def test_non_greeting_questions(text) -> None:
+    assert not is_greeting(text)
+
+
+def test_greeting_is_answered_without_llm(tmp_path) -> None:
+    service, fake = make_service(tmp_path)
+    result = service.ask(question="hi")
+    assert result["kind"] == "verified"
+    assert result["ai_meta"] is None
+    assert fake.statements == []
 
 
 def test_number_check() -> None:

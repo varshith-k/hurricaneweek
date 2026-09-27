@@ -81,11 +81,23 @@ SYSTEM_INSTRUCTIONS = (
 MAX_HISTORY_TURNS = 4
 ALWAYS_ALLOWED_NUMBERS = {"911"}
 _NUMBER = re.compile(r"(?<![\w.])\$?\d[\d,]*(?:\.\d+)?%?")
+_GREETING = re.compile(
+    r"^\s*(hi|hello|hey|yo|howdy|good\s?(morning|afternoon|evening)|thanks|thank you|ok|okay|cool)\s*[!.?]*\s*$",
+    re.IGNORECASE,
+)
+GREETING_ANSWER = (
+    "Hi! Ask me about hurricane prep for Miami-Dade - insurance, supplies, evacuation timing, and more. "
+    "Try one of the suggested questions, or type your own."
+)
 
 
 def is_emergency(text: str) -> bool:
     lowered = text.lower()
     return any(re.search(pattern, lowered) for pattern in EMERGENCY_PATTERNS)
+
+
+def is_greeting(text: str) -> bool:
+    return bool(_GREETING.match(text))
 
 
 def _numbers(text: str) -> set[str]:
@@ -313,6 +325,8 @@ class AssistantService:
             raise HTTPException(status_code=422, detail="Provide a question or question_id")
         if is_emergency(question):
             return {"kind": "emergency", "answer": EMERGENCY_ANSWER, "question_id": None, "sources": ["Emergency guidance: call 911"], "note": None, "ai_meta": None}
+        if is_greeting(question):
+            return {"kind": "verified", "answer": GREETING_ANSWER, "question_id": None, "sources": [], "note": None, "ai_meta": None}
 
         history = (history or [])[-MAX_HISTORY_TURNS:]
         last_run = self._last_run(simulation_id)
