@@ -9,6 +9,8 @@ logger = logging.getLogger(__name__)
 
 DEFAULT_VOICE_ID = "JBFqnCBsd6RMkjVDRZzb"  # "George" - warm storyteller tone, free-tier accessible
 TTS_URL_TEMPLATE = "https://api.elevenlabs.io/v1/text-to-speech/{voice_id}"
+SOUND_GENERATION_URL = "https://api.elevenlabs.io/v1/sound-generation"
+AMBIENT_SOUND_PROMPT = "Ominous hurricane wind and heavy rain, looping ambient background sound, low rumble, no music"
 
 
 class AudioService:
@@ -18,6 +20,7 @@ class AudioService:
         self.enabled = bool(self.api_key)
         self._cache: dict[UUID, bytes] = {}
         self._lock = Lock()
+        self._ambient_sound_cache: bytes | None = None
 
     def get_cached_narration(self, simulation_id: UUID) -> bytes | None:
         with self._lock:
@@ -53,6 +56,34 @@ class AudioService:
         audio_bytes = response.content
         with self._lock:
             self._cache[simulation_id] = audio_bytes
+        return audio_bytes
+
+    def get_ambient_sound(self) -> bytes | None:
+        if not self.enabled:
+            return None
+
+        with self._lock:
+            if self._ambient_sound_cache is not None:
+                return self._ambient_sound_cache
+
+        try:
+            response = httpx.post(
+                SOUND_GENERATION_URL,
+                headers={"xi-api-key": self.api_key, "Accept": "audio/mpeg"},
+                json={"text": AMBIENT_SOUND_PROMPT, "duration_seconds": 20},
+                timeout=30.0,
+            )
+            response.raise_for_status()
+        except httpx.HTTPStatusError as exc:
+            logger.warning("ElevenLabs sound generation failed: %s - %s", exc.response.status_code, exc.response.text)
+            return None
+        except httpx.HTTPError as exc:
+            logger.warning("ElevenLabs sound generation failed: %s", exc)
+            return None
+
+        audio_bytes = response.content
+        with self._lock:
+            self._ambient_sound_cache = audio_bytes
         return audio_bytes
 
 
