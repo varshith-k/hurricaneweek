@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useReducer } from "react";
 
 import { AiTransparencyButton } from "@/components/AiTransparency";
 import { EvacuationRouteCheck } from "@/components/EvacuationRouteCheck";
+import { RunComparison } from "@/components/RunComparison";
 import { SetupScreen } from "@/components/SetupScreen";
 import { Disclaimer, ErrorBanner, LandfallReveal, LoadingState, OutcomeBadge, PlacePanel, SafetyGateNotice, ScoreBars } from "@/components/common";
 import { getActionText } from "@/content/actions";
@@ -314,6 +315,8 @@ export default function Home() {
                 </div>
               </div>
             </div>
+
+            <RunComparison report={report} />
 
             {report.insurance_breakdown ? <div className="mt-6 rounded-2xl border border-border bg-background p-4">...</div> : null}
             {report.decision_quality ? <div className="mt-6 rounded-2xl border border-border bg-background p-4">...</div> : null}

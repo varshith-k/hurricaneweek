@@ -263,3 +263,15 @@ export interface EvacuationRoute {
   warning: string | null;
   note: string;
 }
+
+export interface RunSummary {
+  outcome: string;
+  overall_score: number;
+  scores: { safety: number; financial: number; preparedness: number; timing: number };
+  decision_history: Array<{ stage: string; event_id: string; choice_id: string; consequence: string }>;
+  financial_summary: FinancialSummary;
+}
+
+export interface CompareRunsResponse {
+  explanation: string | null;
+}
