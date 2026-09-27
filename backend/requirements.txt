@@ -7,3 +7,4 @@ httpx==0.28.1
 psycopg[binary]==3.2.10
 solana==0.40.3
 solders==0.29.0
+pymongo==4.18.2
