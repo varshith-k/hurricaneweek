@@ -1,6 +1,7 @@
 ﻿from copy import deepcopy
 from datetime import UTC, datetime
 from threading import Lock
+from typing import Callable
 from uuid import UUID, uuid4
 
 from fastapi import HTTPException
@@ -80,6 +81,7 @@ class SimulationEngine:
         self.audio_service = audio_service
         self.plan_service = plan_service
         self.solana_service = solana_service
+        self.real_world_context_loader: Callable[[], list[dict]] = lambda: []
 
     def create_simulation(self, player_profile: PlayerProfile) -> dict:
         return self.store.create(player_profile)
@@ -224,6 +226,11 @@ class SimulationEngine:
             overall_score=scores["overall"],
         )
 
+        try:
+            real_world_context = self.real_world_context_loader()
+        except Exception:  # noqa: BLE001 - real-world facts are decoration, never break the report
+            real_world_context = []
+
         return FinalReport(
             simulation_id=simulation_id,
             outcome=outcome,
@@ -240,6 +247,7 @@ class SimulationEngine:
             audio_url=audio_url,
             plan_text=plan_text,
             solana_tx_url=solana_tx_url,
+            real_world_context=real_world_context,
         )
 
     def _build_state_response(self, state: dict) -> SimulationState:

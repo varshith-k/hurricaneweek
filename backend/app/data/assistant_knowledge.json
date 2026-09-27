@@ -1,0 +1,182 @@
+[
+  {
+    "id": "renters_insurance_flood",
+    "question": "Does renters insurance cover flooding?",
+    "answer": "Usually not. Standard renters and homeowners policies generally exclude flood damage, including storm surge. Flood coverage for your belongings comes from a separate flood policy, such as one through the National Flood Insurance Program (NFIP). Check your own policy's exclusions; this is general information, not a coverage decision.",
+    "status": "verified",
+    "source": "FEMA / National Flood Insurance Program (floodsmart.gov)",
+    "suggested": true,
+    "related_actions": ["consider_renters_insurance", "verify_insurance_documents"]
+  },
+  {
+    "id": "flood_insurance_waiting_period",
+    "question": "Can I buy flood insurance when a hurricane is coming?",
+    "answer": "You can apply, but it probably won't help this storm. NFIP flood policies typically take 30 days to go into effect, so buy coverage well before hurricane season.",
+    "status": "verified",
+    "source": "FEMA / National Flood Insurance Program (floodsmart.gov)",
+    "suggested": false,
+    "related_actions": ["consider_renters_insurance"]
+  },
+  {
+    "id": "water_supply",
+    "question": "How much water should I store for a hurricane?",
+    "answer": "Plan on 1 gallon of water per person per day. Florida recommends at least a 7-day supply; 3 days is the bare minimum. A household of 4 needs at least 28 gallons for 7 days. You can fill clean containers with tap water before the storm.",
+    "status": "verified",
+    "source": "Florida Division of Emergency Management; Ready.gov",
+    "suggested": true,
+    "related_actions": ["maintain_7_day_water_supply"]
+  },
+  {
+    "id": "food_supply",
+    "question": "What food should I keep for a hurricane?",
+    "answer": "Keep at least a 7-day supply of non-perishable food that needs no cooking or refrigeration, such as canned goods, peanut butter, and crackers, plus a manual can opener. Include food for infants, special diets, and pets.",
+    "status": "verified",
+    "source": "Florida Division of Emergency Management; Ready.gov",
+    "suggested": false,
+    "related_actions": ["maintain_7_day_food_supply"]
+  },
+  {
+    "id": "watch_vs_warning",
+    "question": "What is the difference between a hurricane watch and a warning?",
+    "answer": "A hurricane watch means hurricane conditions are possible in your area, usually issued 48 hours before tropical-storm-force winds are expected. A hurricane warning means hurricane conditions are expected, usually issued 36 hours ahead. A warning is the signal to finish preparations and follow evacuation orders.",
+    "status": "verified",
+    "source": "National Hurricane Center (nhc.noaa.gov)",
+    "suggested": true,
+    "related_actions": ["create_evacuation_trigger_plan"]
+  },
+  {
+    "id": "know_your_zone",
+    "question": "How do I know if I need to evacuate?",
+    "answer": "Look up your evacuation zone before the season starts (Miami-Dade publishes a Know Your Zone map) and follow official orders for that zone. Decide in advance where you will go; a nearby safe place outside the zone often beats a long drive. If you live in a mobile home, plan to leave whenever a hurricane threatens.",
+    "status": "verified",
+    "source": "Miami-Dade County Office of Emergency Management",
+    "suggested": true,
+    "related_actions": ["create_evacuation_trigger_plan"]
+  },
+  {
+    "id": "mobile_home",
+    "question": "Is it safe to stay in a mobile home during a hurricane?",
+    "answer": "No. Mobile and manufactured homes are not safe in hurricane-force wind, even when tied down. Residents are told to evacuate to a sturdy building or shelter whenever a hurricane threatens.",
+    "status": "verified",
+    "source": "National Weather Service; Miami-Dade County Office of Emergency Management",
+    "suggested": false,
+    "related_actions": ["evacuate_mobile_home"]
+  },
+  {
+    "id": "storm_surge",
+    "question": "What is the most dangerous part of a hurricane?",
+    "answer": "Storm surge, the rise of seawater pushed ashore by the storm, has historically caused the largest loss of life in U.S. hurricanes. Evacuation zones are drawn mainly for surge, which is why you should leave when your zone is ordered out.",
+    "status": "verified",
+    "source": "National Hurricane Center (nhc.noaa.gov)",
+    "suggested": false,
+    "related_actions": ["create_evacuation_trigger_plan"]
+  },
+  {
+    "id": "floodwater",
+    "question": "Can I drive or walk through floodwater?",
+    "answer": "No. Turn around, don't drown. Six inches of moving water can knock you down, 12 inches can float many cars, and 2 feet can carry away most vehicles. If water is rising around you, go to the highest floor (not a closed attic) and call 911.",
+    "status": "verified",
+    "source": "National Weather Service (Turn Around Don't Drown)",
+    "suggested": true,
+    "related_actions": ["turn_around_dont_drown"]
+  },
+  {
+    "id": "eye_of_storm",
+    "question": "The wind suddenly stopped. Is the hurricane over?",
+    "answer": "Not necessarily. A sudden calm can be the eye passing over. The other side of the storm follows, often with wind from the opposite direction. Stay inside until officials say the storm has passed.",
+    "status": "verified",
+    "source": "National Weather Service",
+    "suggested": false,
+    "related_actions": ["stay_inside_during_eye"]
+  },
+  {
+    "id": "generator_safety",
+    "question": "Where can I safely run a generator?",
+    "answer": "Only outdoors, at least 20 feet from doors, windows, and vents. Never run a generator inside a home, garage, or doorway, even with doors open, because carbon monoxide can kill. Install a battery-powered carbon monoxide alarm.",
+    "status": "verified",
+    "source": "CDC (Carbon Monoxide Poisoning After a Disaster)",
+    "suggested": true,
+    "related_actions": ["generator_safety"]
+  },
+  {
+    "id": "downed_power_lines",
+    "question": "What should I do about a downed power line?",
+    "answer": "Stay far away from it and from any water touching it, assume it is live, and report it to your utility. Take another route rather than walking through nearby water.",
+    "status": "verified",
+    "source": "National Weather Service; Florida Power & Light safety guidance",
+    "suggested": false,
+    "related_actions": ["avoid_downed_lines"]
+  },
+  {
+    "id": "refrigerated_medication",
+    "question": "How do I keep refrigerated medication safe if the power goes out?",
+    "answer": "Keep a cooler and ice packs ready and keep the fridge closed as long as possible. The FDA says insulin may be kept unrefrigerated between 59 and 86 degrees Fahrenheit for up to 28 days, but products differ, so check the label or ask your pharmacist. If you rely on power for medical needs, plan to shelter somewhere with power; Miami-Dade runs an Emergency and Evacuation Assistance Program you can register for.",
+    "status": "verified",
+    "source": "U.S. Food and Drug Administration; Miami-Dade County Office of Emergency Management",
+    "suggested": false,
+    "related_actions": ["plan_for_refrigerated_medication"]
+  },
+  {
+    "id": "no_car_evacuation",
+    "question": "How do I evacuate if I don't have a car?",
+    "answer": "Arrange a ride with family or friends early, because buses stop running once tropical-storm winds arrive. Miami-Dade's Emergency and Evacuation Assistance Program helps residents who need transportation to evacuate; register before the season.",
+    "status": "verified",
+    "source": "Miami-Dade County Office of Emergency Management",
+    "suggested": false,
+    "related_actions": ["arrange_evacuation_ride"]
+  },
+  {
+    "id": "fuel",
+    "question": "When should I fill my gas tank before a hurricane?",
+    "answer": "As soon as a storm threatens. Gas lines form quickly once a watch is issued, and stations can run out before evacuation orders. A full tank also lets you leave without stopping.",
+    "status": "verified",
+    "source": "Ready.gov; Florida Division of Emergency Management",
+    "suggested": false,
+    "related_actions": ["fuel_up_early"]
+  },
+  {
+    "id": "window_tape",
+    "question": "Does taping windows protect them?",
+    "answer": "No. Tape does not stop glass from breaking and can create larger, more dangerous shards. Use rated storm shutters or plywood, and stay away from windows during the storm.",
+    "status": "verified",
+    "source": "National Weather Service; FEMA",
+    "suggested": false,
+    "related_actions": []
+  },
+  {
+    "id": "return_home",
+    "question": "When is it safe to go home after evacuating?",
+    "answer": "Only when local officials say your area is safe. Roads may be flooded or blocked, and power lines may be down. Many storm deaths happen after the storm, from driving, floodwater, and carbon monoxide.",
+    "status": "verified",
+    "source": "Ready.gov; National Weather Service",
+    "suggested": false,
+    "related_actions": ["wait_for_all_clear"]
+  },
+  {
+    "id": "document_damage",
+    "question": "How should I document storm damage?",
+    "answer": "Photograph and video all damage before cleaning up or throwing anything away, and keep receipts for repairs and supplies. Insurance claims and FEMA assistance applications depend on this evidence.",
+    "status": "verified",
+    "source": "FEMA; Florida Department of Financial Services",
+    "suggested": true,
+    "related_actions": ["document_before_cleanup"]
+  },
+  {
+    "id": "fema_assistance",
+    "question": "Can FEMA help if I don't have insurance?",
+    "answer": "Possibly. After a federal disaster declaration, FEMA Individual Assistance can help with some uninsured or underinsured losses. Apply at DisasterAssistance.gov. It is not guaranteed and usually covers less than insurance, so records and photos of your belongings matter.",
+    "status": "verified",
+    "source": "FEMA (DisasterAssistance.gov)",
+    "suggested": false,
+    "related_actions": ["consider_renters_insurance"]
+  },
+  {
+    "id": "scooter_protection",
+    "question": "How do I protect a scooter or e-bike from a hurricane?",
+    "answer": "Bring it indoors and off the floor before the storm. Floodwater can destroy the battery and electronics, and a submerged lithium battery can become a fire hazard. Do not charge a battery that has been in water.",
+    "status": "verified",
+    "source": "U.S. Fire Administration; Consumer Product Safety Commission",
+    "suggested": false,
+    "related_actions": ["add_elevated_scooter_storage"]
+  }
+]

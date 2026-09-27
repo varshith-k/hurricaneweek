@@ -1,10 +1,14 @@
 import logging
 import os
+from uuid import UUID
 
+from app.services.assistant_service import AssistantService
 from app.services.audio_service import AudioService
 from app.services.mongo_store import MongoSimulationStore
 from app.services.plan_service import PlanService
+from app.services.scoring_engine import build_strengths_and_gaps, compute_scores
 from app.services.simulation_engine import InMemorySimulationStore, SimulationEngine
+from app.services.snowflake_service import FactsRepository
 from app.services.solana_service import SolanaService
 from app.services.tiger_service import TigerService
 
@@ -37,3 +41,24 @@ simulation_engine = SimulationEngine(
 
 def get_simulation_engine() -> SimulationEngine:
     return simulation_engine
+
+
+def _last_run_loader(simulation_id: UUID) -> dict | None:
+    state = simulation_store.get(simulation_id)
+    scores = state.get("final_scores") or compute_scores(state)
+    outcome = state.get("final_outcome") if state["status"] == "completed" else None
+    _, gaps, actions = build_strengths_and_gaps(state)
+    return {
+        "simulation_id": simulation_id,
+        "status": state["status"],
+        "stage": state["stage"],
+        "outcome": outcome,
+        "overall_score": scores["overall"],
+        "preparedness_gaps": gaps,
+        "action_identifiers": actions,
+    }
+
+
+facts_repository = FactsRepository()
+assistant_service = AssistantService(facts=facts_repository, last_run_loader=_last_run_loader)
+simulation_engine.real_world_context_loader = assistant_service.real_world_context

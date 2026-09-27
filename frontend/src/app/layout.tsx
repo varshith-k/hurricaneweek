@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AmbientSound } from "@/components/AmbientSound";
+import { ReadinessAssistant } from "@/components/ReadinessAssistant";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,6 +25,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
       <body className="min-h-full bg-background text-text">
         {children}
         <AmbientSound />
+        <ReadinessAssistant />
       </body>
     </html>
   );

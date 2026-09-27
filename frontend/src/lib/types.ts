@@ -152,3 +152,80 @@ export interface SimulationCreateResponse {
   simulation_id: string;
   state: SimulationState;
 }
+
+export interface Fact {
+  id: string;
+  label: string;
+  value_num: number | null;
+  unit?: string;
+  source?: string;
+  note?: string;
+}
+
+export interface PoweredBy {
+  snowflake_configured: boolean;
+  cortex_model: string | null;
+  embed_model: string | null;
+  rag_enabled: boolean;
+  vector_search: boolean;
+  facts_count: number;
+  data_credit: string;
+  gemini_backup: boolean;
+}
+
+export interface SuggestedQuestion {
+  id: string;
+  question: string;
+}
+
+export interface LastRun {
+  simulation_id: string;
+  status: "active" | "completed";
+  stage: string;
+  outcome: string | null;
+  overall_score: number;
+  preparedness_gaps: string[];
+  action_identifiers: string[];
+}
+
+export interface AssistantIntro {
+  emergency_notice: string;
+  powered_by: PoweredBy;
+  location_label: string;
+  area_notes: string[];
+  facts: Fact[];
+  facts_updated_at: string | null;
+  facts_source: "snowflake-live" | "cache" | "none";
+  last_run: LastRun | null;
+  suggested_questions: SuggestedQuestion[];
+}
+
+export interface ChatTurn {
+  role: "user" | "assistant";
+  content: string;
+}
+
+export interface RetrievedChunk {
+  id: string;
+  source: string;
+  score: number;
+}
+
+export interface AiMeta {
+  provider: "snowflake-cortex-rag" | "snowflake-cortex" | "gemini";
+  model: string;
+  embed_model: string | null;
+  retrieved: RetrievedChunk[];
+  latency_ms: number;
+  sql_statement: string | null;
+  number_check: "passed" | "failed";
+}
+
+export interface AskResponse {
+  kind: "emergency" | "verified" | "ai" | "fallback";
+  answer: string;
+  question_id: string | null;
+  sources: string[];
+  note: string | null;
+  ai_meta: AiMeta | null;
+}

@@ -1,0 +1,37 @@
+{
+  "facts": [
+    {
+      "id": "irma_avg_contents_paid_all_states",
+      "label": "Average NFIP payout for belongings (contents) after Hurricane Irma (all states)",
+      "value_num": 18736,
+      "unit": "USD",
+      "source": "FEMA NFIP claims via Snowflake Public Data",
+      "note": "Mean AMOUNT_PAID_ON_CONTENTS_CLAIM over 8326 claims with a contents payment > 0; FLOOD_EVENT = 'Hurricane Irma', DATE_OF_LOSS 2017-09-09..2017-09-12, all states. Rounded to whole dollars."
+    },
+    {
+      "id": "irma_max_daily_rain_miami",
+      "label": "Most rain in one day at Miami International Airport during Hurricane Irma",
+      "value_num": 131.6,
+      "unit": "Millimeters",
+      "source": "NOAA weather station data via Snowflake Public Data",
+      "note": "Max daily VARIABLE = 'precipitation' in NOAA_WEATHER_METRICS_TIMESERIES at station USW00012839 (MIAMI INTL AP), DATE 2017-09-09..2017-09-12."
+    },
+    {
+      "id": "irma_nfip_claims_all_states",
+      "label": "NFIP flood insurance claims from Hurricane Irma (all states)",
+      "value_num": 32532,
+      "unit": "claims",
+      "source": "FEMA NFIP claims via Snowflake Public Data",
+      "note": "FEMA_NATIONAL_FLOOD_INSURANCE_PROGRAM_CLAIM_INDEX where FLOOD_EVENT = 'Hurricane Irma' and DATE_OF_LOSS between 2017-09-09 and 2017-09-12. All states: the claims data has no county or state column, so this is not a Miami-Dade figure."
+    },
+    {
+      "id": "miami_dade_hurricane_declarations",
+      "label": "Federal hurricane declarations (major disaster + emergency) covering Miami-Dade since 1965",
+      "value_num": 23,
+      "unit": "declarations",
+      "source": "FEMA disaster declarations via Snowflake Public Data",
+      "note": "Distinct DISASTER_ID in FEMA_DISASTER_DECLARATION_INDEX where DISASTER_TYPE = 'Hurricane', joined to FEMA_DISASTER_DECLARATION_AREAS_INDEX with COUNTY_GEO_ID = 'geoId/12086' (Miami-Dade, formerly Dade). DR and EM declarations for the same storm count separately."
+    }
+  ],
+  "updated_at": "2026-09-27T01:38:06+00:00"
+}

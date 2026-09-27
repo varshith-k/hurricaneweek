@@ -1,4 +1,4 @@
-import type { ApiError, DecisionResponse, EventResponse, FinalReport, PlayerProfile, SimulationCreateResponse } from "@/lib/types";
+import type { ApiError, AskResponse, AssistantIntro, ChatTurn, DecisionResponse, EventResponse, FinalReport, PlayerProfile, SimulationCreateResponse } from "@/lib/types";
 
 const DEFAULT_BASE = "http://localhost:8000/api";
 
@@ -70,4 +70,21 @@ export async function submitDecision(simulationId: string, eventId: string, choi
 
 export async function getFinalReport(simulationId: string): Promise<FinalReport> {
   return request<FinalReport>(`/simulations/${simulationId}/report`, "GET");
+}
+
+export async function getAssistantIntro(simulationId?: string | null): Promise<AssistantIntro> {
+  const query = simulationId ? `?simulation_id=${simulationId}` : "";
+  return request<AssistantIntro>(`/assistant/intro${query}`, "GET");
+}
+
+export async function askAssistant(
+  input: { question?: string; question_id?: string },
+  simulationId?: string | null,
+  history: ChatTurn[] = [],
+): Promise<AskResponse> {
+  return request<AskResponse>("/assistant/ask", "POST", {
+    ...input,
+    simulation_id: simulationId ?? undefined,
+    history,
+  });
 }

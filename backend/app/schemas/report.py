@@ -23,4 +23,5 @@ class FinalReport(BaseModel):
     audio_url: str | None = None
     plan_text: str | None = None
     solana_tx_url: str | None = None
+    real_world_context: list[dict] = Field(default_factory=list)
 
