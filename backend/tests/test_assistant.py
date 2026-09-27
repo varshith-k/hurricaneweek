@@ -124,7 +124,7 @@ def test_non_greeting_questions(text) -> None:
 def test_greeting_is_answered_without_llm(tmp_path) -> None:
     service, fake = make_service(tmp_path)
     result = service.ask(question="hi")
-    assert result["kind"] == "verified"
+    assert result["kind"] == "greeting"
     assert result["ai_meta"] is None
     assert fake.statements == []
 

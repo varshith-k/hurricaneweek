@@ -33,7 +33,7 @@ class AiMeta(BaseModel):
 
 
 class AskResponse(BaseModel):
-    kind: Literal["emergency", "verified", "ai", "fallback"]
+    kind: Literal["emergency", "verified", "ai", "fallback", "greeting"]
     answer: str
     question_id: str | None = None
     sources: list[str]

@@ -222,7 +222,7 @@ export interface AiMeta {
 }
 
 export interface AskResponse {
-  kind: "emergency" | "verified" | "ai" | "fallback";
+  kind: "emergency" | "verified" | "ai" | "fallback" | "greeting";
   answer: string;
   question_id: string | null;
   sources: string[];

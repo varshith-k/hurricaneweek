@@ -10,8 +10,9 @@ interface Message extends ChatTurn {
   meta?: AskResponse;
 }
 
-function badgeFor(response: AskResponse): { label: string; tone: "danger" | "accent" | "muted" } {
+function badgeFor(response: AskResponse): { label: string; tone: "danger" | "accent" | "muted" } | null {
   if (response.kind === "emergency") return { label: "Emergency guidance", tone: "danger" };
+  if (response.kind === "greeting") return null;
   if (response.kind === "verified") return { label: "Verified answer", tone: "muted" };
   if (response.kind === "fallback") return { label: "Could not answer", tone: "muted" };
   if (response.ai_meta?.provider === "snowflake-cortex-rag") return { label: "Snowflake Cortex · RAG", tone: "accent" };
@@ -122,10 +123,10 @@ export function ReadinessAssistant() {
               <div key={message.id} className={message.role === "user" ? "flex justify-end" : "flex justify-start"}>
                 <div className={`max-w-[85%] rounded-2xl px-3 py-2 text-sm ${message.role === "user" ? "bg-accent text-background" : "border border-border bg-background text-text"}`}>
                   <p>{message.content}</p>
-                  {message.meta ? (
+                  {message.meta && badgeFor(message.meta) ? (
                     <div className="mt-2 flex flex-wrap items-center gap-2 text-[11px] text-muted">
-                      <span className={`rounded-full border px-2 py-0.5 ${badgeFor(message.meta).tone === "danger" ? "border-danger/40 text-danger" : badgeFor(message.meta).tone === "accent" ? "border-accent/40 text-accent" : "border-border"}`}>
-                        {badgeFor(message.meta).label}
+                      <span className={`rounded-full border px-2 py-0.5 ${badgeFor(message.meta)!.tone === "danger" ? "border-danger/40 text-danger" : badgeFor(message.meta)!.tone === "accent" ? "border-accent/40 text-accent" : "border-border"}`}>
+                        {badgeFor(message.meta)!.label}
                       </span>
                       {message.meta.ai_meta?.number_check === "passed" ? (
                         <span className="inline-flex items-center gap-1 text-success">

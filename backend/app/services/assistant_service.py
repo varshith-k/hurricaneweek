@@ -326,7 +326,7 @@ class AssistantService:
         if is_emergency(question):
             return {"kind": "emergency", "answer": EMERGENCY_ANSWER, "question_id": None, "sources": ["Emergency guidance: call 911"], "note": None, "ai_meta": None}
         if is_greeting(question):
-            return {"kind": "verified", "answer": GREETING_ANSWER, "question_id": None, "sources": [], "note": None, "ai_meta": None}
+            return {"kind": "greeting", "answer": GREETING_ANSWER, "question_id": None, "sources": [], "note": None, "ai_meta": None}
 
         history = (history or [])[-MAX_HISTORY_TURNS:]
         last_run = self._last_run(simulation_id)
