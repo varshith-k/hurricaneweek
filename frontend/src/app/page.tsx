@@ -215,7 +215,7 @@ export default function Home() {
                         </div>
                         {choice.cost !== undefined ? <span className="text-sm text-muted">{formatSignedCurrency(choice.cost)}</span> : null}
                       </div>
-                      {!canAfford ? <div className="mt-2 text-xs text-danger">Not enough cash</div> : null}
+                      {!canAfford ? <div className="mt-2 text-xs text-warning">This will use all your remaining cash</div> : null}
                     </button>
                   );
                 })}

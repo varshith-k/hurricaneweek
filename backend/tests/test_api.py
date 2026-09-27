@@ -7,10 +7,10 @@ from app.main import app
 client = TestClient(app)
 
 
-def _create_simulation(transport_type: str = "scooter", has_insurance: bool = False) -> str:
+def _create_simulation(transport_type: str = "scooter", has_insurance: bool = False, cash_on_hand: int = 500) -> str:
     payload = {
         "player_profile": {
-            "cash_on_hand": 500,
+            "cash_on_hand": cash_on_hand,
             "has_insurance": has_insurance,
             "housing_type": "apartment",
             "transport_type": transport_type,
@@ -235,3 +235,42 @@ def test_timeline_persists_rows_for_each_valid_decision() -> None:
     assert all(row["simulation_id"] == simulation_id for row in rows)
 
 
+
+
+def test_low_cash_choice_floors_at_zero_instead_of_erroring() -> None:
+    simulation_id = _create_simulation(cash_on_hand=100)
+    event = client.get(f"/api/simulations/{simulation_id}/event").json()
+    assert event["event_id"] == "supply_run"
+
+    choice = next(item for item in event["choices"] if item["choice_id"] == "buy_early_supplies")
+    assert choice["cost"] == -120
+
+    response = client.post(
+        f"/api/simulations/{simulation_id}/decisions",
+        json={"event_id": event["event_id"], "choice_id": "buy_early_supplies"},
+    )
+    assert response.status_code == 200
+    assert response.json()["state"]["cash"] == 0
+
+
+def test_running_out_of_cash_surfaces_as_a_report_gap_not_an_error() -> None:
+    simulation_id = _create_simulation(cash_on_hand=50)
+    for choice_id in [
+        "buy_early_supplies",
+        "protect_scooter_and_docs",
+        "skip_shift_prepare",
+        "verify_insurance",
+        "evacuate_early",
+        "strict_protocol",
+        "document_damage_and_plan",
+    ]:
+        event = client.get(f"/api/simulations/{simulation_id}/event").json()
+        response = client.post(
+            f"/api/simulations/{simulation_id}/decisions",
+            json={"event_id": event["event_id"], "choice_id": choice_id},
+        )
+        assert response.status_code == 200
+
+    report = client.get(f"/api/simulations/{simulation_id}/report").json()
+    assert "Ran out of cash before finishing preparations" in report["preparedness_gaps"]
+    assert "build_a_cash_buffer_before_storm_season" in report["action_identifiers"]

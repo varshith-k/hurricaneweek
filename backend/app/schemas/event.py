@@ -7,6 +7,7 @@ from pydantic import BaseModel, Field
 class EventChoice(BaseModel):
     choice_id: str = Field(min_length=1)
     label: str = Field(min_length=1)
+    cost: int | None = None
 
 
 class EventResponse(BaseModel):

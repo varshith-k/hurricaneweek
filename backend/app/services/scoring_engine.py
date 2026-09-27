@@ -99,6 +99,10 @@ def build_strengths_and_gaps(state: dict) -> tuple[list[str], list[str], list[st
         gaps.append("Insufficient emergency food")
         actions.append("maintain_3_day_food_supply")
 
+    if state.get("ran_out_of_cash"):
+        gaps.append("Ran out of cash before finishing preparations")
+        actions.append("build_a_cash_buffer_before_storm_season")
+
     if not strengths:
         strengths.append("Completed full simulation run")
 

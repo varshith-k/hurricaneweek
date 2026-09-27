@@ -110,7 +110,10 @@ class SimulationEngine:
             stage=event["stage"],
             title=event["title"],
             description=event["description"],
-            choices=[EventChoice(choice_id=choice["choice_id"], label=choice["label"]) for choice in event["choices"]],
+            choices=[
+                EventChoice(choice_id=choice["choice_id"], label=choice["label"], cost=choice.get("cash_delta"))
+                for choice in event["choices"]
+            ],
             simulation_complete=False,
         )
 
@@ -130,7 +133,7 @@ class SimulationEngine:
             raise HTTPException(status_code=400, detail="Invalid choice for event")
 
         if state["cash"] + choice.get("cash_delta", 0) < 0:
-            raise HTTPException(status_code=400, detail="Insufficient cash for selected choice")
+            state["ran_out_of_cash"] = True
 
         apply_choice_effects(state, choice)
         state["completed_events"].append(event_id)
