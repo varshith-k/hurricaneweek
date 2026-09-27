@@ -7,13 +7,13 @@ An interactive hurricane-preparedness simulator. You play a Miami-Dade resident 
 ## What it does
 
 - A branching decision engine walks the player through storm stages (`T-120h` → landfall → recovery), tracking cash, supplies, insurance, and evacuation state.
-- An **AI Preparedness Coach** on the final report — Gemini identifies the single decision that hurt most, the one that helped most, and one concrete change, grounded in the player's actual choices (not generic advice). Every consequence still comes from a deterministic rules engine; AI explains the outcome, it doesn't decide it.
-- An **AI Transparency panel** ("How AI is used") shows exactly what each AI feature receives and can't affect — no name/email/account info is ever collected or sent to any provider.
-- **Try Again** — replaying the simulation compares your new run against your last one (score deltas, financial loss) and a "What changed?" button has Gemini explain which specific decisions moved the outcome.
+- An **AI Preparedness Coach** on the final report — Gemini identifies the single decision that hurt most, the one that helped most, and one concrete change, grounded in the player's actual choices (not generic advice). Every consequence still comes from a deterministic rules engine; AI explains the outcome, it doesn't decide it. *(Microsoft challenge: AI as part of the experience, not the entire experience.)*
+- **Try Again** — replaying the simulation compares your new run against your last one (score deltas, financial loss) and a "What changed?" button has Gemini explain which specific decisions moved the outcome. *(Microsoft challenge: lets the player test and visibly improve, not just chat with an assistant.)*
+- An **AI Transparency panel** ("How AI is used") shows exactly what each AI feature receives and can't affect — no name/email/account info is ever collected or sent to any provider. *(Assurant challenge: mindful, transparent AI use.)*
 - Every final report also includes a spoken debrief and a Solana-verifiable completion record — see [Sponsor integrations](#sponsor-integrations) below.
 - A **Readiness Assistant** chatbot answers real hurricane-prep questions (insurance, supplies, evacuation timing) using verified FEMA/NOAA facts, not generic LLM guesses.
-- An **Auto Insurance Readiness Quiz** (a second tab inside the Readiness Assistant) — 8 scored, scenario-based questions on what comprehensive vs. liability coverage actually pays for in a storm, total-loss valuation, rental reimbursement, and claim documentation, each with a sourced explanation.
-- An **evacuation mobility check** on the T-24 evacuation decision — real distance and travel time (via OpenRouteService) from a fixed starting point to the nearest Miami-Dade shelter, with a feasibility flag if rising flood risk threatens a scooter/transit evacuation before landfall.
+- An **Auto Insurance Readiness Quiz** (a second tab inside the Readiness Assistant) — 8 scored, scenario-based questions on what comprehensive vs. liability coverage actually pays for in a storm, total-loss valuation, rental reimbursement, and claim documentation, each with a sourced explanation. *(State Farm challenge: gamified, educational auto-insurance tool for students.)*
+- An **evacuation mobility check** on the T-24 evacuation decision — real distance and travel time (via OpenRouteService, public routing data) from a fixed starting point to the nearest Miami-Dade shelter, with a feasibility flag if rising flood risk threatens a scooter/transit evacuation before landfall. *(Waymo challenge: a transportation hack built on publicly available data.)*
 - Simulation state persists across backend restarts and redeploys — nobody loses progress mid-storm.
 
 ## Design rationale
@@ -41,7 +41,7 @@ Each of these is a real, working call to the sponsor's API — not a bolted-on d
 - **Backend:** FastAPI, Pydantic, pytest — [backend/README.md](backend/README.md)
 - **Frontend:** Next.js 16 (App Router), React 19, Tailwind CSS, TypeScript — [frontend/README.md](frontend/README.md)
 - **Data:** Tiger Data (Timescale), MongoDB Atlas, Snowflake
-- **Deployment:** DigitalOcean App Platform ([`.do/app.yaml`](.do/app.yaml)), auto-deploys on push to `main`, custom domain via Porkbun DNS
+- **Deployment:** DigitalOcean App Platform ([`.do/app.yaml`](.do/app.yaml)), auto-deploys on push to `main`, at [hurricaneweek.miami](https://hurricaneweek.miami) — a `.miami` domain whose registry is operated by **GoDaddy Registry** (DNS managed via Porkbun)
 
 ## API
 
