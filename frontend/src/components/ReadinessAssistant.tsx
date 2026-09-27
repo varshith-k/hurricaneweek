@@ -87,7 +87,7 @@ export function ReadinessAssistant() {
           <div className="flex items-center justify-between border-b border-border p-4">
             <div>
               <p className="text-xs uppercase tracking-[0.25em] text-muted">Readiness Assistant</p>
-              <p className="text-sm text-text">Ask about hurricane prep for Miami-Dade</p>
+              <p className="text-sm text-text">{tab === "quiz" ? "How ready is your car for storm season?" : "Ask about hurricane prep for Miami-Dade"}</p>
             </div>
             <button type="button" onClick={() => setOpen(false)} aria-label="Close assistant" className="rounded-full p-1 text-muted hover:text-text">
               <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
@@ -102,14 +102,14 @@ export function ReadinessAssistant() {
               onClick={() => setTab("chat")}
               className={`flex-1 px-3 py-2 uppercase tracking-[0.15em] transition ${tab === "chat" ? "border-b-2 border-accent text-text" : "text-muted hover:text-text"}`}
             >
-              Chat
+              Ask a question
             </button>
             <button
               type="button"
               onClick={() => setTab("quiz")}
               className={`flex-1 px-3 py-2 uppercase tracking-[0.15em] transition ${tab === "quiz" ? "border-b-2 border-accent text-text" : "text-muted hover:text-text"}`}
             >
-              Auto Insurance Quiz
+              Car &amp; storms
             </button>
           </div>
 

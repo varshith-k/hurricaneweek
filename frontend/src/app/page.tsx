@@ -173,7 +173,21 @@ export default function Home() {
         <div className="mx-auto max-w-7xl p-4 md:p-6">
           <div className="grid gap-5 xl:grid-cols-[1.1fr_1.5fr_0.95fr]">
             <aside className="rounded-3xl border border-border bg-surface p-5">
-              <p className="text-xs uppercase tracking-[0.25em] text-muted">Vitals</p>
+              <div className="flex items-center justify-between gap-2">
+                <p className="text-xs uppercase tracking-[0.25em] text-muted">Vitals</p>
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (window.confirm("Quit this run and start a new one? Your current progress will be lost.")) {
+                      saveSimulationId(null);
+                      window.location.reload();
+                    }
+                  }}
+                  className="text-xs text-muted underline decoration-dotted transition hover:text-text"
+                >
+                  Quit &amp; start over
+                </button>
+              </div>
               <div className="mt-4 text-4xl font-semibold text-text">{formatCurrency(state.currentState?.cash ?? 0)}</div>
               <div className="mt-4 space-y-2 text-sm text-muted">
                 <div className="flex items-center justify-between"><span>Food days</span><span className="font-medium text-text">{state.currentState?.food_days ?? 0}</span></div>
@@ -200,7 +214,8 @@ export default function Home() {
               <p className="mb-4 text-sm italic text-muted">{stageSituation}</p>
               <h2 className="text-2xl font-semibold text-text">{state.currentEvent.title}</h2>
               <p className="mt-3 text-base text-muted">{state.currentEvent.description}</p>
-              <div className="mt-5 space-y-3">
+              <p className="mt-4 text-sm font-medium text-accent">{state.selectedChoiceId ? "Choice selected - lock it in below" : "Select a choice"}</p>
+              <div className="mt-2 space-y-3">
                 {currentChoices.map((choice, index) => {
                   const isSelected = state.selectedChoiceId === choice.choice_id;
                   const canAfford = (state.currentState?.cash ?? 0) + (choice.cost ?? 0) >= 0;
@@ -228,9 +243,8 @@ export default function Home() {
                 <EvacuationRouteCheck simulationId={state.simulationId} />
               ) : null}
 
-              <div className="mt-5 flex items-center gap-3">
+              <div className="mt-5">
                 <button type="button" onClick={submitChoice} disabled={!state.selectedChoiceId} className="rounded-full bg-accent px-4 py-2.5 font-medium text-background disabled:cursor-not-allowed disabled:opacity-60">Lock in decision</button>
-                <span className="text-sm text-muted">{state.selectedChoiceId ? "Choice selected" : "Select a choice"}</span>
               </div>
             </section>
 
@@ -268,7 +282,21 @@ export default function Home() {
             <p className="text-lg text-text">{state.outcome.consequence}</p>
             <p className="mt-3 text-base text-muted">Cash change: {formatSignedCurrency(state.outcome.cash_delta)}</p>
           </div>
-          <button type="button" onClick={() => dispatch({ type: "CONTINUE_TO_NEXT" })} className="mt-5 rounded-full bg-accent px-5 py-3 font-medium text-background">Continue</button>
+          <div className="mt-5 flex items-center gap-4">
+            <button type="button" onClick={() => dispatch({ type: "CONTINUE_TO_NEXT" })} className="rounded-full bg-accent px-5 py-3 font-medium text-background">Continue</button>
+            <button
+              type="button"
+              onClick={() => {
+                if (window.confirm("Quit this run and start a new one? Your current progress will be lost.")) {
+                  saveSimulationId(null);
+                  window.location.reload();
+                }
+              }}
+              className="text-sm text-muted underline decoration-dotted transition hover:text-text"
+            >
+              Quit &amp; start over
+            </button>
+          </div>
         </div>
         <Disclaimer />
       </main>

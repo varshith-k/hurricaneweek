@@ -75,7 +75,8 @@ export function AutoInsuranceQuiz() {
 
   return (
     <div className="flex flex-1 flex-col overflow-y-auto p-4">
-      <p className="text-[11px] text-muted">{quiz.disclaimer}</p>
+      {index === 0 ? <p className="text-sm text-text">Storms don&apos;t just threaten your home - here&apos;s what your auto policy actually covers when one hits.</p> : null}
+      <p className="mt-1 text-[11px] text-muted">{quiz.disclaimer}</p>
       <div className="mt-3 flex items-center justify-between text-[11px] uppercase tracking-[0.2em] text-muted">
         <span>
           Question {index + 1} of {quiz.questions.length}
