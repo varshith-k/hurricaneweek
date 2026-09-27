@@ -11,6 +11,12 @@ An interactive hurricane-preparedness simulator. You play a Miami-Dade resident 
 - A **Readiness Assistant** chatbot answers real hurricane-prep questions (insurance, supplies, evacuation timing) using verified FEMA/NOAA facts, not generic LLM guesses.
 - Simulation state persists across backend restarts and redeploys — nobody loses progress mid-storm.
 
+## Design rationale
+
+**Why $400?** The Federal Reserve's *Report on the Economic Well-Being of U.S. Households* uses a $400 unexpected expense as its benchmark for financial resilience — roughly a third of American adults couldn't cover one in cash. For a college student or early-career renter, that's a realistic, razor-thin cash cushion: it forces real trade-offs between groceries, fuel, and protecting what you own. Start with $5,000 instead and every choice is easy — board up the windows, rent an SUV, book a hotel out of town, no hesitation. At $400, every dollar spent on sandbags is a dollar you might need to evacuate later.
+
+**Why five days?** It matches how the National Hurricane Center actually forecasts: the 120-hour (5-day) advisory is the point where a storm track goes from "too erratic to act on" to "the countdown starts." The stages mirror the real disaster lifecycle — watch phase (T-120 to T-72, low urgency, normal prices), warning phase (T-48 to T-24, evacuation orders, gas runs dry, prices spike), landfall (structural impact, power loss, surge), and the immediate aftermath (grid down, flooding, insurance claims). It's also just the right length for a demo: two days of choices doesn't feel like enough at stake, thirty days drags — five to seven days is enough tension to feel real in a few minutes of play.
+
 ## Sponsor integrations
 
 Each of these is a real, working call to the sponsor's API — not a bolted-on demo. Every integration degrades gracefully (falls back or no-ops) if its API key is missing or the remote call fails, so a sponsor outage never breaks the core simulation.
