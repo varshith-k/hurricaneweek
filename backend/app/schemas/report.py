@@ -11,6 +11,12 @@ class FinancialSummary(BaseModel):
     damage: int = Field(ge=0)
 
 
+class CoachSummary(BaseModel):
+    biggest_mistake: str
+    best_decision: str
+    what_to_change: str
+
+
 class FinalReport(BaseModel):
     simulation_id: UUID
     outcome: str
@@ -21,7 +27,7 @@ class FinalReport(BaseModel):
     action_identifiers: list[str]
     decision_history: list[dict[str, str]]
     audio_url: str | None = None
-    plan_text: str | None = None
+    coach_summary: CoachSummary | None = None
     solana_tx_url: str | None = None
     real_world_context: list[dict] = Field(default_factory=list)
 

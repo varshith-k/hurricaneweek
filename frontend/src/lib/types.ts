@@ -88,6 +88,12 @@ export interface FinancialSummary {
   damage: number;
 }
 
+export interface CoachSummary {
+  biggest_mistake: string;
+  best_decision: string;
+  what_to_change: string;
+}
+
 export interface InsuranceBreakdownItem {
   item: string;
   cause: string;
@@ -136,7 +142,7 @@ export interface FinalReport {
   }>;
   insurance_breakdown?: InsuranceBreakdownItem[];
   decision_quality?: DecisionQualityEntry[];
-  plan_text?: string;
+  coach_summary?: CoachSummary;
   community_stat?: CommunityStat;
   audio_url?: string;
   rent?: RentSummary;

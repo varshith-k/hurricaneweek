@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useReducer } from "react";
 
+import { AiTransparencyButton } from "@/components/AiTransparency";
 import { EvacuationRouteCheck } from "@/components/EvacuationRouteCheck";
 import { SetupScreen } from "@/components/SetupScreen";
 import { Disclaimer, ErrorBanner, LandfallReveal, LoadingState, OutcomeBadge, PlacePanel, SafetyGateNotice, ScoreBars } from "@/components/common";
@@ -333,7 +334,29 @@ export default function Home() {
               <ul className="mt-3 space-y-3 text-sm text-text">{actionText.map((item) => <li key={item}>• {item}</li>)}</ul>
             </div>
 
-            {report.plan_text ? <div className="mt-6 rounded-2xl border border-border bg-background p-4"><p className="text-xs uppercase tracking-[0.2em] text-muted">Plan</p><p className="mt-3 text-sm text-text">{report.plan_text}</p></div> : null}
+            {report.coach_summary ? (
+              <div className="mt-6 rounded-2xl border border-accent/40 bg-accent/5 p-4">
+                <div className="flex items-center justify-between gap-3">
+                  <p className="text-xs uppercase tracking-[0.2em] text-accent">✨ AI Preparedness Coach</p>
+                  <AiTransparencyButton />
+                </div>
+                <div className="mt-3 space-y-3 text-sm text-text">
+                  <div>
+                    <p className="text-xs uppercase tracking-[0.15em] text-muted">Biggest mistake</p>
+                    <p className="mt-1">{report.coach_summary.biggest_mistake}</p>
+                  </div>
+                  <div>
+                    <p className="text-xs uppercase tracking-[0.15em] text-muted">Best decision</p>
+                    <p className="mt-1">{report.coach_summary.best_decision}</p>
+                  </div>
+                  <div>
+                    <p className="text-xs uppercase tracking-[0.15em] text-muted">What to change next time</p>
+                    <p className="mt-1">{report.coach_summary.what_to_change}</p>
+                  </div>
+                </div>
+                <p className="mt-3 text-[11px] text-muted/80">Powered by Google Gemini, grounded in your actual decisions. AI explains your outcome - it doesn&apos;t decide it.</p>
+              </div>
+            ) : null}
             {report.community_stat ? <div className="mt-6 rounded-2xl border border-border bg-background p-4"><p className="text-xs uppercase tracking-[0.2em] text-muted">Community stat</p><p className="mt-3 text-sm text-text">{report.community_stat.text}</p></div> : null}
             {report.audio_url ? <div className="mt-6 rounded-2xl border border-border bg-background p-4"><p className="text-xs uppercase tracking-[0.2em] text-muted">Spoken debrief</p><audio className="mt-3 w-full" controls src={report.audio_url}>Your browser does not support audio playback.</audio></div> : null}
             {report.solana_tx_url ? <div className="mt-6 rounded-2xl border border-border bg-background p-4"><p className="text-xs uppercase tracking-[0.2em] text-muted">On-chain record</p><p className="mt-2 text-sm text-muted">Your outcome and score were recorded as a verifiable transaction on Solana devnet.</p><a href={report.solana_tx_url} target="_blank" rel="noopener noreferrer" className="mt-3 inline-flex items-center gap-2 rounded-full border border-border bg-surface px-4 py-2 text-sm font-medium text-accent transition hover:border-accent">Verify on Solana Explorer<span aria-hidden="true">→</span></a></div> : null}

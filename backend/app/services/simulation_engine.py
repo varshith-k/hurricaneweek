@@ -8,7 +8,7 @@ from fastapi import HTTPException
 
 from app.schemas.decision import DecisionOutcome
 from app.schemas.event import EventChoice, EventResponse
-from app.schemas.report import FinalReport, FinancialSummary
+from app.schemas.report import CoachSummary, FinalReport, FinancialSummary
 from app.schemas.simulation import PlayerProfile, ScoreState, SimulationState, StormState
 from app.core.config import get_settings
 from app.services.audio_service import AudioService, compose_narration_text
@@ -202,10 +202,11 @@ class SimulationEngine:
         outcome = state.get("final_outcome") or map_outcome(scores)
         strengths, gaps, actions = build_strengths_and_gaps(state)
 
-        plan_text = self.plan_service.generate_plan(
+        coach_summary = self.plan_service.generate_coach_summary(
             outcome=outcome,
             overall_score=scores["overall"],
             preparedness_gaps=gaps,
+            strengths=strengths,
             decision_history=state["decision_history"],
         )
 
@@ -248,7 +249,7 @@ class SimulationEngine:
             action_identifiers=actions,
             decision_history=state["decision_history"],
             audio_url=audio_url,
-            plan_text=plan_text,
+            coach_summary=CoachSummary(**coach_summary) if coach_summary else None,
             solana_tx_url=solana_tx_url,
             real_world_context=real_world_context,
         )
