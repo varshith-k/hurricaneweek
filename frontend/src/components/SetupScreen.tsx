@@ -15,7 +15,7 @@ const navLinks = [
 ];
 
 const heroBadges = [
-  { label: "Built for Students", icon: "M22 10v6M2 10l10-5 10 5-10 5z M6 12v5c0 1 3 3 6 3s6-2 6-3v-5" },
+  { label: "Built for Disaster Prep", icon: "M12 2 4 5v6c0 5.25 3.5 9.74 8 11 4.5-1.26 8-5.75 8-11V5l-8-3z" },
   { label: "Interactive Simulation", icon: "M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z" },
   { label: "Real-World Scenarios", icon: "M12 22s7-4.5 7-11a7 7 0 1 0-14 0c0 6.5 7 11 7 11z M12 8v4l2 2" },
 ];
