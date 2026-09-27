@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 
 import { AutoInsuranceQuiz } from "@/components/AutoInsuranceQuiz";
+import { CoverageCheck } from "@/components/CoverageCheck";
 import { askAssistant, getAssistantIntro } from "@/lib/api";
 import type { AskResponse, AssistantIntro, ChatTurn } from "@/lib/types";
 
@@ -31,7 +32,7 @@ function CheckIcon() {
 
 export function ReadinessAssistant() {
   const [open, setOpen] = useState(false);
-  const [tab, setTab] = useState<"chat" | "quiz">("chat");
+  const [tab, setTab] = useState<"chat" | "quiz" | "coverage">("chat");
   const [intro, setIntro] = useState<AssistantIntro | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
@@ -87,7 +88,9 @@ export function ReadinessAssistant() {
           <div className="flex items-center justify-between border-b border-border p-4">
             <div>
               <p className="text-xs uppercase tracking-[0.25em] text-muted">Readiness Assistant</p>
-              <p className="text-sm text-text">{tab === "quiz" ? "How ready is your car for storm season?" : "Ask about hurricane prep for Miami-Dade"}</p>
+              <p className="text-sm text-text">
+                {tab === "quiz" ? "How ready is your car for storm season?" : tab === "coverage" ? "What does your policy actually cover?" : "Ask about hurricane prep for Miami-Dade"}
+              </p>
             </div>
             <button type="button" onClick={() => setOpen(false)} aria-label="Close assistant" className="rounded-full p-1 text-muted hover:text-text">
               <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" aria-hidden="true">
@@ -111,10 +114,19 @@ export function ReadinessAssistant() {
             >
               Car &amp; storms
             </button>
+            <button
+              type="button"
+              onClick={() => setTab("coverage")}
+              className={`flex-1 px-3 py-2 uppercase tracking-[0.15em] transition ${tab === "coverage" ? "border-b-2 border-accent text-text" : "text-muted hover:text-text"}`}
+            >
+              My coverage
+            </button>
           </div>
 
           {tab === "quiz" ? (
             <AutoInsuranceQuiz />
+          ) : tab === "coverage" ? (
+            <CoverageCheck />
           ) : (
             <>
           <div ref={scrollRef} className="flex-1 space-y-3 overflow-y-auto p-4">

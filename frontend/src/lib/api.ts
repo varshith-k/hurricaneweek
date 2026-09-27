@@ -1,4 +1,4 @@
-import type { ApiError, AskResponse, AssistantIntro, ChatTurn, CompareRunsResponse, DecisionResponse, EvacuationRoute, EventResponse, FinalReport, PlayerProfile, QuizResponse, RunSummary, SimulationCreateResponse } from "@/lib/types";
+import type { ApiError, AskResponse, AssistantIntro, ChatTurn, CompareRunsResponse, CoverageResponse, DecisionResponse, EvacuationRoute, EventResponse, FinalReport, PlayerProfile, QuizResponse, RunSummary, SimulationCreateResponse } from "@/lib/types";
 
 const DEFAULT_BASE = "http://localhost:8000/api";
 
@@ -99,4 +99,8 @@ export async function getEvacuationRoute(simulationId: string): Promise<Evacuati
 
 export async function compareRuns(previous: RunSummary, current: RunSummary): Promise<CompareRunsResponse> {
   return request<CompareRunsResponse>("/coach/compare-runs", "POST", { previous, current });
+}
+
+export async function getCoverageCheck(): Promise<CoverageResponse> {
+  return request<CoverageResponse>("/coverage-check", "GET");
 }

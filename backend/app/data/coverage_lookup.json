@@ -1,0 +1,66 @@
+[
+  {
+    "id": "homeowners",
+    "label": "Homeowners (HO-3, standard)",
+    "wind": "Usually covered as a named peril, but Florida and other coastal states often carry a separate hurricane deductible (a percentage of your home's value, not a flat dollar amount) that applies once a hurricane watch/warning is issued.",
+    "flood": "Not covered. Standard homeowners policies exclude flood and storm surge entirely, no matter the cause.",
+    "action": "Check your declarations page for a separate hurricane/windstorm deductible, and get a flood policy (NFIP or private) if you don't have one - it's not automatic.",
+    "source": "Insurance Information Institute (iii.org); FEMA/NFIP (floodsmart.gov)"
+  },
+  {
+    "id": "renters",
+    "label": "Renters (HO-4)",
+    "wind": "Your belongings are usually covered if wind-driven rain gets in through storm damage (like a broken window), but the building itself is your landlord's responsibility, not yours.",
+    "flood": "Not covered. Renters policies exclude flood damage to your belongings just like homeowners policies do.",
+    "action": "A separate flood policy through NFIP or a private insurer can cover your belongings even as a renter - most people don't know this exists.",
+    "source": "Insurance Information Institute (iii.org); FEMA/NFIP (floodsmart.gov)"
+  },
+  {
+    "id": "condo",
+    "label": "Condo (HO-6)",
+    "wind": "Your unit's interior and belongings are usually covered; the building structure is typically the condo association's master policy - check what \"walls in\" vs \"walls out\" means for your specific association.",
+    "flood": "Not covered by either your HO-6 policy or most master policies. Flood needs a separate policy, and it's worth asking your HOA if the building itself carries one.",
+    "action": "Ask your condo association exactly what their master policy covers, and get your own flood policy for your unit's contents.",
+    "source": "Insurance Information Institute (iii.org)"
+  },
+  {
+    "id": "mobile_home",
+    "label": "Mobile / manufactured home",
+    "wind": "Often more restrictive than standard homeowners coverage - many insurers require the home to be properly anchored/tied down to code, and some carriers won't write wind coverage at all in high-risk areas.",
+    "flood": "Not covered, same as any other policy type - and mobile homes are not safe to shelter in during a hurricane regardless of insurance.",
+    "action": "Confirm your home meets current anchoring requirements, and evacuate whenever a hurricane threatens - insurance doesn't change that guidance.",
+    "source": "Insurance Information Institute (iii.org); National Weather Service"
+  },
+  {
+    "id": "auto_liability_only",
+    "label": "Auto - liability only",
+    "wind": "Not covered. Liability insurance only pays for damage or injuries you cause to OTHER people or property - it never pays to repair your own car, no matter the cause.",
+    "flood": "Not covered, for the same reason - liability-only never touches your own vehicle.",
+    "action": "Add comprehensive coverage if you want storm damage to your own car covered - liability alone leaves you fully exposed.",
+    "source": "Insurance Information Institute (iii.org)"
+  },
+  {
+    "id": "auto_full_coverage",
+    "label": "Auto - full coverage (comprehensive)",
+    "wind": "Covered. Comprehensive coverage (\"other than collision\") pays for wind, hail, and falling-object damage to your own car.",
+    "flood": "Covered. Comprehensive also covers flood and storm surge damage to your own vehicle.",
+    "action": "You're covered for storm damage - just document everything with photos before repairs, and check if you have rental reimbursement if your car needs time in the shop.",
+    "source": "Insurance Information Institute (iii.org)"
+  },
+  {
+    "id": "flood_policy",
+    "label": "Flood policy (NFIP or private)",
+    "wind": "Not covered by a flood policy specifically - wind damage is handled by your homeowners/renters/condo policy instead.",
+    "flood": "Covered, for the structure and/or contents depending on what you purchased - check which one(s) you bought.",
+    "action": "NFIP policies take about 30 days to take effect, so buying one right before a storm won't help for that storm - get it before hurricane season starts.",
+    "source": "FEMA/NFIP (floodsmart.gov)"
+  },
+  {
+    "id": "not_sure",
+    "label": "Not sure / other policy type",
+    "wind": "We don't have a confident, sourced answer for this without knowing your actual policy type and state - coverage varies too much to guess.",
+    "flood": "Same here - we can't tell you this without knowing your specific policy.",
+    "action": "Check your policy's declarations page for the named perils it lists, or call your agent and ask directly: \"Does this cover wind damage? Does it cover flood or storm surge?\" That's the only reliable way to know for your exact policy.",
+    "source": "N/A - insufficient information to give a sourced answer"
+  }
+]

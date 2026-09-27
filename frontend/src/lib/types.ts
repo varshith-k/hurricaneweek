@@ -275,3 +275,17 @@ export interface RunSummary {
 export interface CompareRunsResponse {
   explanation: string | null;
 }
+
+export interface CoverageEntry {
+  id: string;
+  label: string;
+  wind: string;
+  flood: string;
+  action: string;
+  source: string;
+}
+
+export interface CoverageResponse {
+  disclaimer: string;
+  entries: CoverageEntry[];
+}
