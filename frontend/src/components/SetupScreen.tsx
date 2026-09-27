@@ -91,23 +91,25 @@ export function SetupScreen({
         <div className="absolute inset-0 bg-gradient-to-b from-background/50 via-background/75 to-background" />
       </div>
 
-      <nav className="relative mx-auto flex w-full max-w-6xl items-center justify-between px-4 py-6">
-        <div className="flex items-center gap-2 text-text">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/icon.svg" alt="" className="h-6 w-6" />
-          <span className="font-semibold">Hurricane Week</span>
-        </div>
-        <div className="hidden items-center gap-6 text-sm text-muted md:flex">
-          {navLinks.map((link) => (
-            <a key={link.href} href={link.href} className="transition hover:text-text">
-              {link.label}
-            </a>
-          ))}
-        </div>
-        <button type="button" onClick={() => onStart(profile)} className="rounded-full bg-accent px-4 py-2 text-sm font-medium text-background transition hover:opacity-90">
-          Play Now →
-        </button>
-      </nav>
+      <div className="relative mx-auto w-full max-w-6xl px-4 pt-4">
+        <nav className="flex items-center justify-between rounded-2xl border border-border bg-surface/70 px-4 py-3 shadow-lg shadow-black/20 backdrop-blur-md">
+          <div className="flex items-center gap-2 text-text">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/icon.svg" alt="" className="h-6 w-6" />
+            <span className="font-semibold">Hurricane Week</span>
+          </div>
+          <div className="hidden items-center gap-6 text-sm text-muted md:flex">
+            {navLinks.map((link) => (
+              <a key={link.href} href={link.href} className="transition hover:text-text">
+                {link.label}
+              </a>
+            ))}
+          </div>
+          <button type="button" onClick={() => onStart(profile)} className="rounded-full bg-accent px-4 py-2 text-sm font-medium text-background transition hover:opacity-90">
+            Play Now →
+          </button>
+        </nav>
+      </div>
 
       <div className="relative mx-auto flex w-full max-w-6xl flex-col gap-6 px-4 pb-8 pt-2 md:pb-16">
         <div className="rounded-3xl border border-border bg-surface/70 p-6 shadow-lg shadow-black/30 backdrop-blur-md md:p-8">
