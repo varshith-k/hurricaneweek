@@ -27,6 +27,19 @@ async function withMinDelay<T>(promise: Promise<T>): Promise<T> {
   return result;
 }
 
+function radarPoints(values: number[], cx: number, cy: number, maxRadius: number): string {
+  const n = values.length;
+  return values
+    .map((value, index) => {
+      const angle = (Math.PI * 2 * index) / n - Math.PI / 2;
+      const radius = (Math.max(0, Math.min(100, value)) / 100) * maxRadius;
+      const x = cx + radius * Math.cos(angle);
+      const y = cy + radius * Math.sin(angle);
+      return `${x.toFixed(1)},${y.toFixed(1)}`;
+    })
+    .join(" ");
+}
+
 const saveSimulationId = (id: string | null) => {
   if (typeof window === "undefined") return;
   if (id) {
@@ -330,9 +343,21 @@ export default function Home() {
               <div className="rounded-2xl border border-border bg-background p-4">
                 <p className="text-xs uppercase tracking-[0.2em] text-muted">Score radar</p>
                 <svg viewBox="0 0 220 220" className="mt-3 w-full">
-                  <polygon points="110,20 170,70 170,150 110,200 50,150 50,70" fill="none" stroke="rgba(148,163,184,0.55)" />
-                  <polygon points="110,80 170,110 150,170 90,180 55,130" fill="rgba(94,234,212,0.22)" stroke="#5eead4" strokeWidth="2" />
+                  <polygon points={radarPoints([100, 100, 100, 100], 110, 110, 90)} fill="none" stroke="rgba(148,163,184,0.45)" />
+                  <polygon points={radarPoints([50, 50, 50, 50], 110, 110, 90)} fill="none" stroke="rgba(148,163,184,0.25)" />
+                  <polygon
+                    points={radarPoints([report.scores.safety, report.scores.financial, report.scores.preparedness, report.scores.timing], 110, 110, 90)}
+                    fill="rgba(94,234,212,0.22)"
+                    stroke="#5eead4"
+                    strokeWidth="2"
+                  />
                 </svg>
+                <div className="mt-2 flex justify-between text-[10px] uppercase tracking-[0.15em] text-muted">
+                  <span>Safety</span>
+                  <span>Financial</span>
+                  <span>Preparedness</span>
+                  <span>Timing</span>
+                </div>
               </div>
               <div className="rounded-2xl border border-border bg-background p-4">
                 <p className="text-xs uppercase tracking-[0.2em] text-muted">Financial summary</p>
